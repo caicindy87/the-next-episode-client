@@ -35,24 +35,22 @@ const NavBar = () => {
       <Navbar expand="lg">
         <Navbar.Brand href="/">The Next Episode</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Form className="form-center">
-          <FormControl type="text" placeholder="Search" className="" />
-        </Form>
+
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Item>
-              <Nav.Link to="/" exact>
+              <Nav.Link href="/" exact>
                 Home
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link to="/show" exact>
-                Show
+              <Nav.Link href="/show" exact>
+                TV Shows
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link to="/showlist" exact>
-                Show List
+              <Nav.Link href="/" exact>
+                Create an Account
               </Nav.Link>
             </Nav.Item>
           </Nav>
@@ -64,23 +62,9 @@ const NavBar = () => {
 
 export default NavBar;
 
+// Goes inbetween <toggle and collaspe
 {
-  /* <Styles>
-<Navbar expand="lg"></Navbar>
-<Nav.Item>
-  <Nav.Link to="/" exact>
-    Homes
-  </Nav.Link>
-</Nav.Item>
-<Nav.Item>
-  <Nav.Link to="/show" exact>
-    Show
-  </Nav.Link>
-</Nav.Item>
-<Nav.Item>
-  <Nav.Link to="/showlist" exact>
-    Show List
-  </Nav.Link>
-</Nav.Item>
-</Styles> */
+  /* <Form className="form-center">
+  <FormControl type="text" placeholder="Search" className="" />
+</Form>; */
 }
