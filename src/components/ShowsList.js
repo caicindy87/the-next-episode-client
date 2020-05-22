@@ -2,13 +2,13 @@ import React from "react";
 
 import Show from "./Show";
 
-const ShowsList = ({ shows }) => {
+const ShowsList = ({ shows, savedShows }) => {
   return (
-    <div class="ui vertically divided grid">
-      <div class="two column row">
+    <div className="ui vertically divided grid">
+      <div className="four column row">
         {shows.map((show) => (
-          <div class="column">
-            <Show key={show.id} show={show} />
+          <div key={show.id} className="column">
+            <Show show={show} />
           </div>
         ))}
       </div>

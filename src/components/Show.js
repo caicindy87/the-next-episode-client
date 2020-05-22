@@ -1,22 +1,21 @@
 import React from "react";
-import { Card, Image } from "semantic-ui-react";
 
 const Show = ({ show }) => {
   return (
-    <div class="ui card">
-      <div class="image">
+    <div className="ui card">
+      <div className="image">
         <img src={show.image_thumbnail_path} />
       </div>
-      <div class="content">
-        <div class="header">{show.name}</div>
+      <div className="content">
+        <div className="header">{show.name}</div>
         <br />
-        <div class="meta">
-          <span class="date">Start date: {show.start_date}</span>
+        <div className="meta">
+          <span className="date">Start date: {show.start_date}</span>
           <br />
-          <span class="date">End date: {show.end_date}</span>
+          <span className="date">End date: {show.end_date}</span>
         </div>
         <br />
-        <div class="content">
+        <div className="content">
           <p>Country: {show.country}</p>
           <p>Network: {show.network}</p>
           <p>Status: {show.status}</p>
