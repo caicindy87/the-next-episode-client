@@ -1,6 +1,6 @@
 import React from "react";
 
-const SearchBar = ({ searchTerm, changeSearchTerm, fetchMovies }) => {
+const SearchBar = ({ searchTerm, changeSearchTerm, fetchShows }) => {
   return (
     <div>
       <input
@@ -10,7 +10,7 @@ const SearchBar = ({ searchTerm, changeSearchTerm, fetchMovies }) => {
         value={searchTerm}
         onChange={(e) => changeSearchTerm(e.target.value)}
       />
-      <input type="submit" value="Search" onClick={fetchMovies} />
+      <input type="submit" value="Search" onClick={fetchShows} />
     </div>
   );
 };

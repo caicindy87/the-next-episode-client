@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+
 import SearchBar from "../components/SearchBar";
+import ShowsList from "../components/ShowsList";
 
 class ShowContainer extends Component {
   state = {
@@ -11,7 +13,7 @@ class ShowContainer extends Component {
     this.setState({ searchTerm: searchValue });
   };
 
-  fetchMovies = () => {
+  fetchShows = () => {
     fetch("http://localhost:3000/api/v1/search", {
       method: "POST",
       headers: {
@@ -23,17 +25,22 @@ class ShowContainer extends Component {
       }),
     })
       .then((resp) => resp.json())
-      .then((data) => this.setState({ shows: data.tv_shows }));
+      .then((data) => {
+        this.setState({ shows: data.tv_shows });
+      })
+      .catch((err) => console.log(err));
   };
 
   render() {
+    const { searchTerm, shows } = this.state;
     return (
       <div>
         <SearchBar
-          searchTerm={this.state.searchTerm}
+          searchTerm={searchTerm}
           changeSearchTerm={this.changeSearchTerm}
-          fetchMovies={this.fetchMovies}
+          fetchShows={this.fetchShows}
         />
+        <ShowsList shows={shows} />
       </div>
     );
   }
