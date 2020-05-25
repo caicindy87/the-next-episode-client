@@ -11,7 +11,7 @@ const SavedShowsList = ({ savedShows }) => {
           <div key={savedShow.id} className="column">
             <Link to={`/savedshows/${savedShow.id}`} className="ui card">
               <div className="image">
-                <img src={savedShow.show.image} />
+                <img src={savedShow.show.image_thumbnail_path} />
               </div>
             </Link>
           </div>

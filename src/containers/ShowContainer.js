@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import ShowsList from "../components/ShowsList";
 import Show from "../components/Show";
+import Loader from "../components/Loader";
 
 class ShowContainer extends Component {
   state = {
@@ -43,7 +44,7 @@ class ShowContainer extends Component {
   }
 
   render() {
-    const { searchTerm, shows, popularShows } = this.state;
+    const { searchTerm, shows } = this.state;
     return (
       <div>
         <SearchBar
@@ -59,7 +60,7 @@ class ShowContainer extends Component {
               const showId = +routerProps.match.params.id;
               const show = shows.find((s) => s.id === showId);
 
-              return show ? <Show show={show} /> : "Loading...";
+              return show ? <Show show={show} /> : <Loader />;
             }}
           ></Route>
           <Route

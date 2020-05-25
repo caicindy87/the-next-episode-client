@@ -6,6 +6,7 @@ import NavBar from "../components/Navbar";
 import Home from "../components/Home";
 import ShowContainer from "./ShowContainer";
 import SavedShowContainer from "./SavedShowContainer";
+import "../style/app.css";
 
 function App() {
   return (
