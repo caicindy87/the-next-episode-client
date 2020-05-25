@@ -1,24 +1,23 @@
 import React from "react";
 
-const Show = ({ show }) => {
+const Show = ({ show, popularShow }) => {
   return (
-    <div className="ui card">
-      <div className="image">
-        <img src={show.image_thumbnail_path} />
+    <div className="ui grid container">
+      <div className=" content left floated five wide column ">
+        <img
+          src={show.image_thumbnail_path}
+          className="ui large rounded image"
+        />
       </div>
-      <div className="content">
-        <div className="header">{show.name}</div>
-        <br />
-        <div className="meta">
-          <span className="date">Start date: {show.start_date}</span>
-          <br />
-          <span className="date">End date: {show.end_date}</span>
-        </div>
-        <br />
-        <div className="content">
+      <div className=" content left floated five wide column ">
+        <h1>{show.name}</h1>
+
+        <div className="-details">
+          <p className="date">Start date: {show.started_date}</p>
+          <p className="date">End date: {show.ended_date}</p>
+          <p>Status: {show.status}</p>
           <p>Country: {show.country}</p>
           <p>Network: {show.network}</p>
-          <p>Status: {show.status}</p>
         </div>
       </div>
     </div>

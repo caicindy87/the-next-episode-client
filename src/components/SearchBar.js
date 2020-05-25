@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const SearchBar = ({ searchTerm, changeSearchTerm, fetchShows }) => {
   return (
@@ -10,7 +11,9 @@ const SearchBar = ({ searchTerm, changeSearchTerm, fetchShows }) => {
         value={searchTerm}
         onChange={(e) => changeSearchTerm(e.target.value)}
       />
-      <input type="submit" value="Search" onClick={fetchShows} />
+      <Link to="/shows">
+        <input type="submit" value="Search" onClick={fetchShows} />
+      </Link>
     </div>
   );
 };

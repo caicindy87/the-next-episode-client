@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import "../style/savedshowlist.css";
+
 const SavedShowsList = ({ savedShows }) => {
   return (
     <div className="ui vertically divided grid">
