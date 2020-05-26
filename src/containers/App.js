@@ -13,11 +13,9 @@ function App() {
   return (
     <div className="App">
       <NavBar />
+      {/* Switch will render route exclusively */}
       <Switch>
-        <Route
-          path="/login"
-          render={(routerProps) => <Login {...routerProps} />}
-        />
+        <Route path="/login" render={() => <Login />} />
       </Switch>
       <Route exact={true} path="/" component={Home} />
 

@@ -12,42 +12,45 @@ class Login extends React.Component {
     };
   }
 
+  handleChange = (e) => {
+    const newFields = { ...this.state.fields, [e.target.name]: e.target.value };
+    this.setState({ fields: newFields });
+  };
+
   submitLogin(e) {
     e.preventDefault();
   }
 
   render() {
+    const { fields } = this.state;
     return (
-      <div className="inner-container">
-        <div className="header">Login</div>
-        <div className="box">
-          <div className="input-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              className="login-input"
-              placeholder="Username"
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="login-input"
-              placeholder="Password"
-            />
-          </div>
-
-          <button
-            type="button"
-            className="login-btn"
-            onClick={this.submitLogin.bind(this)}
-          >
-            Login
-          </button>
+      <div>
+        {this.state.error ? <h1>Try Again</h1> : null}
+        <div className="ui form">
+          <form onSubmit={this.handleSubmit}>
+            <div className="ui field">
+              <label>Username</label>
+              <input
+                name="username"
+                placeholder="username"
+                value={fields.username}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="ui field">
+              <label>Password</label>
+              <input
+                name="password"
+                type="password"
+                placeholder="password"
+                value={fields.password}
+                onChange={this.handleChange}
+              />
+            </div>
+            <button type="submit" className="ui basic green button">
+              Login
+            </button>
+          </form>
         </div>
       </div>
     );
