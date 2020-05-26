@@ -21,9 +21,7 @@ class ReviewModal extends Component {
               handleAddReview={this.props.handleAddReview}
             />
           </Modal.Body>
-          <Modal.Footer>
-            {/* <button class="ui green basic button">Save</button> */}
-          </Modal.Footer>
+          <Modal.Footer></Modal.Footer>
         </Modal>
       </>
     );

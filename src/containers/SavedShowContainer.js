@@ -21,10 +21,6 @@ class SavedShowContainer extends Component {
   }
 
   handleAddReview = (savedShowId, review) => {
-    const updated = this.state.savedShows.map((s) =>
-      s.id === savedShowId ? { ...s, reviews: [...s.reviews, review] } : s
-    );
-    console.log(updated);
     this.setState((prevState) => ({
       savedShows: prevState.savedShows.map((s) =>
         s.id === savedShowId ? { ...s, reviews: [...s.reviews, review] } : s
