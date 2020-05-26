@@ -1,7 +1,6 @@
 import React from "react";
 
 import "../style/show.css";
-import ReviewForm from "./ReviewForm";
 import ReviewModal from "./ReviewModal";
 
 class Show extends React.Component {
