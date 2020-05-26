@@ -5,10 +5,10 @@ import "../style/savedshowpage.css";
 import ReviewModal from "./ReviewModal";
 
 class SavedShowPage extends React.Component {
-  state = {
-    isOpen: false,
-    rating: null,
-  };
+  constructor(props) {
+    super();
+    this.state = { isOpen: false, rating: props.savedShow.rating };
+  }
 
   showModal = () => {
     this.setState({
@@ -22,17 +22,33 @@ class SavedShowPage extends React.Component {
     });
   };
 
-  handleRate = (e, { rating, maxRating }) => {
+  handleRate = (e, { rating }) => {
+    console.log(rating);
     this.setState({
       rating: rating,
     });
   };
 
+  componentDidUpdate() {
+    fetch(
+      `http://localhost:3000/api/v1/saved_shows/${this.props.savedShow.id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          rating: this.state.rating,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+
   // saved_show needs show_id, user_id. when a show is saved, can just default rating to null. should remove watch_date?
 
   render() {
     const { savedShow } = this.props;
-    const { isOpen } = this.state;
+    const { isOpen, rating } = this.state;
 
     return (
       <div className="ui grid container">
@@ -59,12 +75,13 @@ class SavedShowPage extends React.Component {
             </h4>
           </div>{" "}
           <div className="review-log">
-            <p>My Rating: {savedShow.rating}</p>
             <Rating
+              icon="star"
               maxRating={5}
               clearable
               onRate={this.handleRate}
-              rating={savedShow.rating}
+              rating={rating}
+              size="massive"
             />
 
             <h3>Reviews</h3>

@@ -8,7 +8,7 @@ class ReviewForm extends Component {
     spoiler: false,
   };
 
-  handleRate = (e, { rating, maxRating }) => {
+  handleRate = (e, { rating }) => {
     this.setState({
       rating: rating,
     });
