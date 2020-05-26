@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import SavedShowsList from "../components/SavedShowsList";
 import SavedShowPage from "../components/SavedShowPage";
+import Loader from "../components/Loader";
 
 class SavedShowContainer extends Component {
   state = {
@@ -33,7 +34,7 @@ class SavedShowContainer extends Component {
               return savedShow ? (
                 <SavedShowPage savedShow={savedShow} />
               ) : (
-                "Loading..."
+                <Loader />
               );
             }}
           ></Route>

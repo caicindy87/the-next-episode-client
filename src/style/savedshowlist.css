@@ -1,0 +1,12 @@
+.ui.grid {
+  margin-left: 3.5rem;
+  margin-right: 1rem;
+}
+
+.show-name {
+  font-size: 17px;
+  margin: 10px auto;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+}
