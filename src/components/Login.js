@@ -1,4 +1,5 @@
 import React from "react";
+import api from "../services/api";
 
 class Login extends React.Component {
   constructor() {
@@ -11,15 +12,27 @@ class Login extends React.Component {
       },
     };
   }
+  // Adds new key value to the end of fields of target.name:target.value
 
   handleChange = (e) => {
     const newFields = { ...this.state.fields, [e.target.name]: e.target.value };
     this.setState({ fields: newFields });
   };
 
-  submitLogin(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
-  }
+
+    api.auth
+      .login(this.state.fields.username, this.state.fields.password)
+      .then((res) => {
+        if (res.error) {
+          this.setState({ error: true });
+        } else {
+          this.props.handleLogin(res);
+          this.props.history.push("/");
+        }
+      });
+  };
 
   render() {
     const { fields } = this.state;
