@@ -6,18 +6,23 @@ import ReviewForm from "./ReviewForm";
 
 class ReviewModal extends Component {
   render() {
+    const { savedShowId } = this.props;
+
     return (
       <>
         <Modal show={this.props.isOpen} onHide={this.props.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>title</Modal.Title>
+            <Modal.Title>New Review</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <ReviewForm />
+            <ReviewForm
+              savedShowId={savedShowId}
+              handleClose={this.props.handleClose}
+              handleAddReview={this.props.handleAddReview}
+            />
           </Modal.Body>
           <Modal.Footer>
-            Footer
-            <button>Save</button>
+            {/* <button class="ui green basic button">Save</button> */}
           </Modal.Footer>
         </Modal>
       </>

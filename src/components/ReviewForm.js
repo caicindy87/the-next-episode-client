@@ -1,17 +1,10 @@
 import React, { Component } from "react";
-import { Form, Rating } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 
 class ReviewForm extends Component {
   state = {
     content: "",
-    rating: null,
     spoiler: false,
-  };
-
-  handleRate = (e, { rating }) => {
-    this.setState({
-      rating: rating,
-    });
   };
 
   toggleSpoiler = () => {
@@ -23,19 +16,31 @@ class ReviewForm extends Component {
   };
 
   handleSubmit = () => {
-    fetch("http://localhost:3000/api/v1/reviews", {});
+    const { content, spoiler } = this.state;
+    const { savedShowId, handleClose, handleAddReview } = this.props;
+
+    fetch("http://localhost:3000/api/v1/reviews", {
+      method: "POST",
+      body: JSON.stringify({
+        content: content,
+        spoiler: spoiler,
+        saved_show_id: savedShowId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resp) => resp.json())
+      .then((review) => handleAddReview(savedShowId, review));
+
+    handleClose();
   };
-
-  // handleChangeDate = () => {
-
-  // }
 
   render() {
     const { content, spoiler } = this.state;
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Rating maxRating={5} clearable onRate={this.handleRate} />
         <Form.Checkbox
           label="Contains spoiler"
           checked={spoiler}
@@ -43,16 +48,11 @@ class ReviewForm extends Component {
         />
         <Form.TextArea
           label="Review"
-          placeholder="What did you think about the show?"
+          placeholder="What did you think of the show?"
           value={content}
           onChange={this.handleChangeContent}
         />
-        <Form.Input
-          label="Watch Date"
-          type="date"
-          placeholder="Enter watch date"
-          // onChange={this.handleChangeDate}
-        />
+        <Form.Button content="Save" />
       </Form>
     );
   }

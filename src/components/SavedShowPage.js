@@ -23,7 +23,6 @@ class SavedShowPage extends React.Component {
   };
 
   handleRate = (e, { rating }) => {
-    console.log(rating);
     this.setState({
       rating: rating,
     });
@@ -44,7 +43,7 @@ class SavedShowPage extends React.Component {
     );
   }
 
-  // saved_show needs show_id, user_id. when a show is saved, can just default rating to null. should remove watch_date?
+  // saved_show needs show_id, user_id. when a show is saved, can just default rating to null
 
   render() {
     const { savedShow } = this.props;
@@ -85,6 +84,15 @@ class SavedShowPage extends React.Component {
             />
 
             <h3>Reviews</h3>
+            <button class="ui green basic button" onClick={this.showModal}>
+              Add a Review
+            </button>
+            <ReviewModal
+              isOpen={isOpen}
+              handleClose={this.hideModal}
+              savedShowId={savedShow.id}
+              handleAddReview={this.props.handleAddReview}
+            />
             {savedShow.reviews.map((r) => (
               <div key={r.id} className="review-box">
                 <p>Submitted Date: {r.created_at.substring(0, 10)}</p>
@@ -94,10 +102,6 @@ class SavedShowPage extends React.Component {
               </div>
             ))}
           </div>
-          <button class="ui green basic button" onClick={this.showModal}>
-            Rate and Review
-          </button>
-          <ReviewModal isOpen={isOpen} handleClose={this.hideModal} />
         </div>
       </div>
     );
