@@ -1,10 +1,20 @@
-class LoginBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+import React from "react";
+
+class Login extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      error: false,
+      fields: {
+        username: "",
+        password: "",
+      },
+    };
   }
 
-  submitLogin(e) {}
+  submitLogin(e) {
+    e.preventDefault();
+  }
 
   render() {
     return (
@@ -43,3 +53,5 @@ class LoginBox extends React.Component {
     );
   }
 }
+
+export default Login;
