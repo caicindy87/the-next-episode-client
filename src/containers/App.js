@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <Route exact={true} path="/" component={Home} />
+      <Route exact path="/" component={Home} />
 
       <ShowContainer />
       <SavedShowContainer />
