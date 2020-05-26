@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import "./index.css";
+import "./style/index.css";
 import App from "./containers/App";
 
 ReactDOM.render(
@@ -11,9 +11,3 @@ ReactDOM.render(
   </Router>,
   document.getElementById("root")
 );
-
-// <Switch>
-//   <Route exact path="/" component={Home} />
-//   <Route path="/about" component={Show} />
-//   <Route path="/showlist" component={ShowsList} />
-// </Switch>

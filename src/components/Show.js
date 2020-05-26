@@ -1,25 +1,27 @@
 import React from "react";
-import { Card, Image } from "semantic-ui-react";
+
+import "../style/show.css";
 
 const Show = ({ show }) => {
   return (
-    <div class="ui card">
-      <div class="image">
-        <img src={show.image_thumbnail_path} />
-      </div>
-      <div class="content">
-        <div class="header">{show.name}</div>
-        <br />
-        <div class="meta">
-          <span class="date">Start date: {show.start_date}</span>
-          <br />
-          <span class="date">End date: {show.end_date}</span>
+    <div className="ui grid ">
+      <div className="row">
+        <div className="thumbnail five wide column ">
+          <img
+            src={show.image_thumbnail_path}
+            className="ui large rounded image"
+          />
         </div>
-        <br />
-        <div class="content">
-          <p>Country: {show.country}</p>
-          <p>Network: {show.network}</p>
-          <p>Status: {show.status}</p>
+        <div className=" show-details six wide column ">
+          <h1>{show.name}</h1>
+          <div className="-details">
+            <p className="date">Start date: {show.started_date}</p>
+            <p className="date">End date: {show.ended_date}</p>
+            <p>Status: {show.status}</p>
+            <p>Country: {show.country}</p>
+            <p>Network: {show.network}</p>
+          </div>
+          <button class="ui green basic button">Rate and Review</button>
         </div>
       </div>
     </div>

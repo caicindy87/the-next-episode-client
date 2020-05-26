@@ -45,7 +45,7 @@ const NavBar = () => {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="/show" exact>
+              <Nav.Link href="/shows" exact>
                 TV Shows
               </Nav.Link>
             </Nav.Item>

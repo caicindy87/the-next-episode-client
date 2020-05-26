@@ -3,17 +3,16 @@ import { Link } from "react-router-dom";
 
 import "../style/savedshowlist.css";
 
-const ShowsList = ({ shows }) => {
+const SavedShowsList = ({ savedShows }) => {
   return (
     <div className="ui vertically divided grid">
       <div className="four column row">
-        {shows.map((show) => (
-          <div key={show.id} className="column">
-            <Link to={`/shows/${show.id}`} className="ui card">
+        {savedShows.map((savedShow) => (
+          <div key={savedShow.id} className="column">
+            <Link to={`/savedshows/${savedShow.id}`} className="ui card">
               <div className="image">
-                <img src={show.image_thumbnail_path} />
+                <img src={savedShow.show.image_thumbnail_path} />
               </div>
-              <p className="show-name">{show.name}</p>
             </Link>
           </div>
         ))}
@@ -22,4 +21,4 @@ const ShowsList = ({ shows }) => {
   );
 };
 
-export default ShowsList;
+export default SavedShowsList;
