@@ -23,8 +23,12 @@ class ReviewForm extends Component {
   };
 
   handleSubmit = () => {
-    fetch();
+    fetch("http://localhost:3000/api/v1/reviews", {});
   };
+
+  // handleChangeDate = () => {
+
+  // }
 
   render() {
     const { content, spoiler } = this.state;
@@ -42,6 +46,12 @@ class ReviewForm extends Component {
           placeholder="What did you think about the show?"
           value={content}
           onChange={this.handleChangeContent}
+        />
+        <Form.Input
+          label="Watch Date"
+          type="date"
+          placeholder="Enter watch date"
+          // onChange={this.handleChangeDate}
         />
       </Form>
     );

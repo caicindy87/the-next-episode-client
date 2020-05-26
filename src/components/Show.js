@@ -2,7 +2,7 @@ import React from "react";
 
 import "../style/show.css";
 import ReviewForm from "./ReviewForm";
-import ModalForm from "./Modal";
+import ReviewModal from "./ReviewModal";
 
 class Show extends React.Component {
   state = {
@@ -21,6 +21,8 @@ class Show extends React.Component {
     });
   };
 
+  // saved_show needs show_id, user_id. when a show is saved, can just default rating to null. should remove watch_date?
+
   render() {
     const { show } = this.props;
     const { isOpen } = this.state;
@@ -37,8 +39,8 @@ class Show extends React.Component {
           <div className=" show-details six wide column ">
             <h1>{show.name}</h1>
             <div className="-details">
-              <p className="date">Start date: {show.started_date}</p>
-              <p className="date">End date: {show.ended_date}</p>
+              <p className="date">Start date: {show.start_date}</p>
+              <p className="date">End date: {show.end_date}</p>
               <p>Status: {show.status}</p>
               <p>Country: {show.country}</p>
               <p>Network: {show.network}</p>
@@ -46,7 +48,7 @@ class Show extends React.Component {
             <button class="ui green basic button" onClick={this.showModal}>
               Rate and Review
             </button>
-            <ModalForm isOpen={isOpen} handleClose={this.hideModal} />
+            <ReviewModal isOpen={isOpen} handleClose={this.hideModal} />
           </div>
         </div>
       </div>
@@ -67,8 +69,8 @@ class Show extends React.Component {
 //         <div className=" show-details six wide column ">
 //           <h1>{show.name}</h1>
 //           <div className="-details">
-//             <p className="date">Start date: {show.started_date}</p>
-//             <p className="date">End date: {show.ended_date}</p>
+//             <p className="date">Start date: {show.start_date}</p>
+//             <p className="date">End date: {show.end_date}</p>
 //             <p>Status: {show.status}</p>
 //             <p>Country: {show.country}</p>
 //             <p>Network: {show.network}</p>

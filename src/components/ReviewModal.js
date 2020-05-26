@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import ReviewForm from "./ReviewForm";
 
-class ModalForm extends Component {
+class ReviewModal extends Component {
   render() {
     return (
       <>
@@ -25,4 +25,4 @@ class ModalForm extends Component {
   }
 }
 
-export default ModalForm;
+export default ReviewModal;
