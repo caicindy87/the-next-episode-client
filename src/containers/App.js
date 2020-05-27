@@ -50,6 +50,23 @@ class App extends React.Component {
     }));
   };
 
+  handleEditReview = (savedShowId, updatedReview) => {
+    this.setState((prevState) => ({
+      savedShows: prevState.savedShows.map((s) => {
+        if (s.id === savedShowId) {
+          return {
+            ...s,
+            reviews: s.reviews.map((r) =>
+              r.id === updatedReview.id ? updatedReview : r
+            ),
+          };
+        } else {
+          return s;
+        }
+      }),
+    }));
+  };
+
   handleDeleteReview = (savedShowId, reviewId) => {
     fetch(`http://localhost:3000/api/v1/reviews/${reviewId}`, {
       method: "DELETE",
@@ -114,6 +131,7 @@ class App extends React.Component {
           savedShows={this.state.savedShows}
           handleAddReview={this.handleAddReview}
           handleDeleteReview={this.handleDeleteReview}
+          handleEditReview={this.handleEditReview}
         />
       </div>
     );

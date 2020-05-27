@@ -6,7 +6,7 @@ import EditReviewForm from "./EditReviewForm";
 
 class EditReviewModal extends Component {
   render() {
-    const { savedShowId, handleClose, review } = this.props;
+    const { savedShowId, handleClose, review, handleEditReview } = this.props;
 
     return (
       <>
@@ -22,6 +22,7 @@ class EditReviewModal extends Component {
               savedShowId={savedShowId}
               handleClose={handleClose}
               review={review}
+              handleEditReview={handleEditReview}
             />
           </Modal.Body>
           <Modal.Footer></Modal.Footer>

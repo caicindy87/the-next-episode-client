@@ -63,7 +63,12 @@ class SavedShowPage extends React.Component {
   }
 
   render() {
-    const { savedShow, handleDeleteReview, handleAddReview } = this.props;
+    const {
+      savedShow,
+      handleDeleteReview,
+      handleAddReview,
+      handleEditReview,
+    } = this.props;
     const { isOpen, rating, editModalIsOpen, review } = this.state;
 
     const sortedReviews = savedShow.reviews.sort((a, b) => {
@@ -126,6 +131,7 @@ class SavedShowPage extends React.Component {
               handleClose={this.hideEditModal}
               savedShowId={savedShow.id}
               review={review}
+              handleEditReview={handleEditReview}
             />
             {sortedReviews.map((r) => (
               <div key={r.id} className="review-box">

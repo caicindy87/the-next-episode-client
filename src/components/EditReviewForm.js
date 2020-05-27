@@ -17,21 +17,20 @@ class EditReviewForm extends Component {
 
   handleSubmit = () => {
     const { content, spoiler } = this.state;
-    const { savedShowId, handleClose, handleAddReview } = this.props;
+    const { savedShowId, handleClose, review, handleEditReview } = this.props;
 
-    fetch("http://localhost:3000/api/v1/reviews", {
-      method: "POST",
+    fetch(`http://localhost:3000/api/v1/reviews/${review.id}`, {
+      method: "PATCH",
       body: JSON.stringify({
         content: content,
         spoiler: spoiler,
-        saved_show_id: savedShowId,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then((resp) => resp.json())
-      .then((review) => handleAddReview(savedShowId, review));
+      .then((review) => handleEditReview(savedShowId, review));
 
     handleClose();
   };
