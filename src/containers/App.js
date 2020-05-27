@@ -17,7 +17,12 @@ class App extends React.Component {
   };
 
   fetchShows = () => {
-    fetch("http://localhost:3000/api/v1/saved_shows")
+    fetch("http://localhost:3000/api/v1/saved_shows", {
+      method: "GET",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
       .then((resp) => resp.json())
       .then((data) => this.setState({ savedShows: data }));
   };
@@ -103,7 +108,7 @@ class App extends React.Component {
             }}
           /> */}
         </Switch>
-        <Route exact={true} path="/" component={Home} />
+        <Route exact path="/" component={Home} />
 
         <ShowContainer
           savedShows={this.state.savedShows}

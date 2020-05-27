@@ -9,7 +9,7 @@ const headers = {
 };
 
 const login = (username, password) => {
-  return fetch(`${API_ROOT}/auth/`, {
+  return fetch(`${API_ROOT}/auth`, {
     method: "POST",
     headers: headers,
     body: JSON.stringify({ username, password }),
