@@ -6,14 +6,6 @@ import SavedShowPage from "../components/SavedShowPage";
 import Loader from "../components/Loader";
 
 class SavedShowContainer extends Component {
-  state = {};
-
-  // handleEditReview = () => {
-  //   const { isOpen } = this.state;
-
-  //   return <ReviewModal isOpen={isOpen}></ReviewModal>;
-  // };
-
   render() {
     const { savedShows, handleAddReview, handleDeleteReview } = this.props;
 
