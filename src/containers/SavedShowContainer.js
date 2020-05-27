@@ -28,6 +28,20 @@ class SavedShowContainer extends Component {
     }));
   };
 
+  handleDeleteReview = (savedShowId, reviewId) => {
+    fetch(`http://localhost:3000/api/v1/reviews/${reviewId}`, {
+      method: "DELETE",
+    });
+
+    this.setState((prevState) => ({
+      savedShows: prevState.savedShows.map((s) =>
+        s.id === savedShowId
+          ? { ...s, reviews: s.reviews.filter((r) => r.id !== reviewId) }
+          : s
+      ),
+    }));
+  };
+
   render() {
     const { savedShows } = this.state;
 
@@ -44,6 +58,7 @@ class SavedShowContainer extends Component {
                 <SavedShowPage
                   savedShow={savedShow}
                   handleAddReview={this.handleAddReview}
+                  handleDeleteReview={this.handleDeleteReview}
                 />
               ) : (
                 <Loader />

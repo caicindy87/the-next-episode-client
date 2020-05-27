@@ -43,10 +43,8 @@ class SavedShowPage extends React.Component {
     );
   }
 
-  // saved_show needs show_id, user_id. when a show is saved, can just default rating to null
-
   render() {
-    const { savedShow } = this.props;
+    const { savedShow, handleDeleteReview, handleAddReview } = this.props;
     const { isOpen, rating } = this.state;
     const sortedReviews = savedShow.reviews.sort((a, b) => {
       if (b.created_at < a.created_at) {
@@ -92,18 +90,24 @@ class SavedShowPage extends React.Component {
             />
 
             <h3>Reviews</h3>
-            <button className="ui green basic button" onClick={this.showModal}>
+            <button className="ui green button" onClick={this.showModal}>
               Add a Review
             </button>
             <ReviewModal
               isOpen={isOpen}
               handleClose={this.hideModal}
               savedShowId={savedShow.id}
-              handleAddReview={this.props.handleAddReview}
+              handleAddReview={handleAddReview}
             />
             {sortedReviews.map((r) => (
               <div key={r.id} className="review-box">
                 <p>Submitted Date: {r.created_at.substring(0, 10)}</p>
+                <button
+                  className="ui icon red button right floated"
+                  onClick={() => handleDeleteReview(savedShow.id, r.id)}
+                >
+                  <i aria-hidden="true" className="delete icon"></i>
+                </button>
                 <p>{r.spoiler ? "Contains Spoiler" : "No Spoiler"}</p>
                 <p>{r.content}</p>
                 <br />

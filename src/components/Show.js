@@ -1,41 +1,58 @@
 import React from "react";
 
 import "../style/show.css";
-import ReviewModal from "./ReviewModal";
 
 class Show extends React.Component {
-  state = {
-    isOpen: false,
-  };
-
-  showModal = () => {
-    this.setState({
-      isOpen: true,
-    });
-  };
-
-  hideModal = () => {
-    this.setState({
-      isOpen: false,
-    });
-  };
-
   // saved_show needs show_id, user_id. when a show is saved, can just default rating to null. should remove watch_date?
+  state = {
+    saved: false,
+    savedShowId: null,
+  };
+
+  toggleSaveButton = () => {
+    this.setState((prevState) => ({ saved: !prevState.saved }));
+  };
+
+  createSavedShow = () => {
+    fetch("http://localhost:3000/api/v1/saved_shows", {
+      method: "POST",
+      body: JSON.stringify({
+        show: this.props.show,
+        saved_show: { rating: 0, user_id: 1 },
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resp) => resp.json())
+      .then((s) => console.log(s));
+  };
+
+  removeSavedShow = () => {
+    fetch(
+      `http://localhost:3000/api/v1/saved_shows/${this.state.savedShowId}`,
+      { method: "DELETE" }
+    );
+  };
+
+  componentDidUpdate() {
+    this.createSavedShow();
+  }
 
   render() {
     const { show } = this.props;
-    const { isOpen } = this.state;
+    const { saved } = this.state;
 
     return (
       <div className="ui grid ">
         <div className="row">
-          <div className="thumbnail five wide column ">
+          <div className="thumbnail six wide column ">
             <img
               src={show.image_thumbnail_path}
-              className="ui large rounded image"
+              className="ui medium rounded image"
             />
           </div>
-          <div className=" show-details six wide column ">
+          <div className=" show-details six wide column">
             <h1>{show.name}</h1>
             <div className="-details">
               <p className="date">Start date: {show.start_date}</p>
@@ -44,10 +61,15 @@ class Show extends React.Component {
               <p>Country: {show.country}</p>
               <p>Network: {show.network}</p>
             </div>
-            <button class="ui green basic button" onClick={this.showModal}>
-              Rate and Review
+            <br />
+            <button
+              className={
+                saved ? "ui green basic button fluid" : "ui green  button fluid"
+              }
+              onClick={this.toggleSaveButton}
+            >
+              {saved ? "Unsave Show" : "Save Show"}
             </button>
-            <ReviewModal isOpen={isOpen} handleClose={this.hideModal} />
           </div>
         </div>
       </div>
