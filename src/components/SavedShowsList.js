@@ -13,6 +13,7 @@ const SavedShowsList = ({ savedShows }) => {
               <div className="image">
                 <img src={savedShow.show.image_thumbnail_path} />
               </div>
+              <p className="show-name">{savedShow.show.name}</p>
             </Link>
           </div>
         ))}

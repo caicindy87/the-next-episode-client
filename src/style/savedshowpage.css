@@ -4,12 +4,18 @@
 }
 
 p {
-  font-size: 17px;
+  font-size: 13px;
   margin: 10px 20px 0px;
+  color: grey;
 }
 
 p:first-child {
   margin-top: 15px;
+}
+
+.review-content {
+  font-size: 17px;
+  color: black;
 }
 
 h1 {

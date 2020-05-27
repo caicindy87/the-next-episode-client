@@ -1,41 +1,57 @@
 import React from "react";
 
 import "../style/show.css";
-import ReviewModal from "./ReviewModal";
+import SavedShowsList from "./SavedShowsList";
 
 class Show extends React.Component {
-  state = {
-    isOpen: false,
+  createSavedShow = () => {
+    fetch("http://localhost:3000/api/v1/saved_shows", {
+      method: "POST",
+      body: JSON.stringify({
+        show: this.props.show,
+        saved_show: { rating: 0, user_id: 1 },
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resp) => resp.json())
+      .then((s) => this.props.handleSavingShow(s));
   };
 
-  showModal = () => {
-    this.setState({
-      isOpen: true,
+  removeSavedShow = (id) => {
+    fetch(`http://localhost:3000/api/v1/saved_shows/${id}`, {
+      method: "DELETE",
     });
+
+    this.props.handleRemovingSavedShow(id);
   };
 
-  hideModal = () => {
-    this.setState({
-      isOpen: false,
-    });
-  };
+  saveOrRemoveShow = () => {
+    const { show, savedShows } = this.props;
+    const savedShow = savedShows.find(
+      (savedShow) => savedShow.show.name === show.name
+    );
 
-  // saved_show needs show_id, user_id. when a show is saved, can just default rating to null. should remove watch_date?
+    savedShow ? this.removeSavedShow(savedShow.id) : this.createSavedShow();
+  };
 
   render() {
-    const { show } = this.props;
-    const { isOpen } = this.state;
+    const { show, savedShows } = this.props;
+    const savedShow = savedShows.find(
+      (savedShow) => savedShow.show.name === show.name
+    );
 
     return (
       <div className="ui grid ">
         <div className="row">
-          <div className="thumbnail five wide column ">
+          <div className="thumbnail six wide column ">
             <img
               src={show.image_thumbnail_path}
-              className="ui large rounded image"
+              className="ui medium rounded image"
             />
           </div>
-          <div className=" show-details six wide column ">
+          <div className=" show-details six wide column">
             <h1>{show.name}</h1>
             <div className="-details">
               <p className="date">Start date: {show.start_date}</p>
@@ -44,10 +60,19 @@ class Show extends React.Component {
               <p>Country: {show.country}</p>
               <p>Network: {show.network}</p>
             </div>
-            <button class="ui green basic button" onClick={this.showModal}>
-              Rate and Review
+            <br />
+            <button
+              className={
+                savedShow
+                  ? "ui green basic button fluid"
+                  : "ui green  button fluid"
+              }
+              onClick={this.saveOrRemoveShow}
+            >
+              {savedShows.some((savedShow) => savedShow.show.name === show.name)
+                ? "Unsave Show"
+                : "Save Show"}
             </button>
-            <ReviewModal isOpen={isOpen} handleClose={this.hideModal} />
           </div>
         </div>
       </div>
