@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { Nav, Navbar, Form, FormControl } from "react-bootstrap";
 import styled from "styled-components";
 
-
 const Styles = styled.div`
   .navbar {
     background-color: #222;
@@ -40,19 +39,13 @@ const NavBar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Item>
-              <Nav.Link href="/" exact>
-                Home
-              </Nav.Link>
+              <Nav.Link href="/">Home</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="/shows" exact>
-                TV Shows
-              </Nav.Link>
+              <Nav.Link href="/shows">TV Shows</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="/" exact>
-                Create an Account
-              </Nav.Link>
+              <Nav.Link href="/">Create an Account</Nav.Link>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
