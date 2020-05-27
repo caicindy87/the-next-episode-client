@@ -8,12 +8,6 @@ const headers = {
   Authorization: token,
 };
 
-const getPaintings = () => {
-  return fetch(`${API_ROOT}/paintings/`, { headers: headers }).then((res) =>
-    res.json()
-  );
-};
-
 const login = (username, password) => {
   return fetch(`${API_ROOT}/auth/`, {
     method: "POST",
@@ -32,8 +26,5 @@ export default {
   auth: {
     login: login,
     getCurrentUser: getCurrentUser,
-  },
-  paintings: {
-    getPaintings,
   },
 };

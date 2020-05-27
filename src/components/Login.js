@@ -22,6 +22,9 @@ class Login extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    // Calling login function/fetch request from the api page.
+    // Next passing in the username and password
+    // Next resolving promise from login function/fetch request
     api.auth
       .login(this.state.fields.username, this.state.fields.password)
       .then((res) => {
@@ -54,7 +57,7 @@ class Login extends React.Component {
               <label>Password</label>
               <input
                 name="password"
-                type="password"
+                type="password" // Hides text
                 placeholder="password"
                 value={fields.password}
                 onChange={this.handleChange}

@@ -9,19 +9,51 @@ import ShowContainer from "./ShowContainer";
 import SavedShowContainer from "./SavedShowContainer";
 import "../style/app.css";
 
-function App() {
-  return (
-    <div className="App">
-      <NavBar />
-      {/* Switch will render route exclusively */}
-      <Switch>
-        <Route path="/login" render={() => <Login />} />
-      </Switch>
-      <Route exact={true} path="/" component={Home} />
+// In the route we are passing down our handleLogin to our login component
 
-      <ShowContainer />
-      <SavedShowContainer />
-    </div>
-  );
+class App extends React.Component {
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      api.auth.getCurrentUser().then((user) => {
+        const currentUser = { currentUser: user };
+
+        this.setState({ auth: currentUser });
+      });
+    }
+  }
+
+  handleLogin = (user) => {
+    const currentUser = { currentUser: user };
+    localStorage.setItem("token", user.token);
+
+    this.setState({ auth: currentUser });
+  };
+
+  handleLogout = () => {
+    localStorage.removeItem("token");
+    this.setState({ auth: { currentUser: {} } });
+  };
+  render() {
+    return (
+      <div className="App">
+        <NavBar />
+        {/* Switch will render route exclusively */}
+        <Switch>
+          <Route
+            path="/login"
+            render={(routerProps) => {
+              return <Login {...routerProps} handleLogin={this.handleLogin} />;
+            }}
+          />
+        </Switch>
+        <Route exact={true} path="/" component={Home} />
+
+        <ShowContainer />
+        <SavedShowContainer />
+      </div>
+    );
+  }
 }
 export default App;
