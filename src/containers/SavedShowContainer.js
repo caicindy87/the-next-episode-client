@@ -20,8 +20,17 @@ class SavedShowContainer extends Component {
     this.fetchShows();
   }
 
+  handleAddReview = (savedShowId, review) => {
+    this.setState((prevState) => ({
+      savedShows: prevState.savedShows.map((s) =>
+        s.id === savedShowId ? { ...s, reviews: [...s.reviews, review] } : s
+      ),
+    }));
+  };
+
   render() {
     const { savedShows } = this.state;
+
     return (
       <div>
         <Switch>
@@ -32,7 +41,10 @@ class SavedShowContainer extends Component {
               const savedShow = savedShows.find((s) => s.id === savedShowId);
 
               return savedShow ? (
-                <SavedShowPage savedShow={savedShow} />
+                <SavedShowPage
+                  savedShow={savedShow}
+                  handleAddReview={this.handleAddReview}
+                />
               ) : (
                 <Loader />
               );
