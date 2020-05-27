@@ -17,25 +17,30 @@ class ShowContainer extends Component {
   };
 
   fetchShows = () => {
-    fetch("http://localhost:3000/api/v1/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        searchTerm: this.state.searchTerm,
-      }),
-    })
+    fetch(
+      `http://localhost:3000/api/v1/search?searchTerm=${this.state.searchTerm}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
       .then((resp) => resp.json())
       .then((data) => {
+        console.log(data);
         this.setState({ shows: data.tv_shows });
       })
       .catch((err) => console.log(err));
   };
 
   componentDidMount() {
-    fetch("http://localhost:3000/api/v1/shows")
+    fetch("http://localhost:3000/api/v1/shows", {
+      method: "GET",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
       .then((resp) => resp.json())
       .then((data) => {
         this.setState({ shows: data });
