@@ -3,8 +3,8 @@ import { Form } from "semantic-ui-react";
 
 class EditReviewForm extends Component {
   state = {
-    content: "",
-    spoiler: false,
+    content: this.props.review.content,
+    spoiler: this.props.review.spoiler,
   };
 
   toggleSpoiler = () => {
@@ -37,8 +37,7 @@ class EditReviewForm extends Component {
   };
 
   render() {
-    // const { content, spoiler } = this.state;
-    const { content, spoiler } = this.props.review;
+    const { content, spoiler } = this.state;
 
     return (
       <Form onSubmit={this.handleSubmit}>

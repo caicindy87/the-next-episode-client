@@ -12,6 +12,7 @@ class SavedShowPage extends React.Component {
       isOpen: false,
       rating: props.savedShow.rating,
       editModalIsOpen: false,
+      review: {},
     };
   }
 
@@ -27,9 +28,10 @@ class SavedShowPage extends React.Component {
     });
   };
 
-  showEditModal = () => {
+  showEditModal = (review) => {
     this.setState({
       editModalIsOpen: true,
+      review: review,
     });
   };
 
@@ -62,7 +64,8 @@ class SavedShowPage extends React.Component {
 
   render() {
     const { savedShow, handleDeleteReview, handleAddReview } = this.props;
-    const { isOpen, rating, editModalIsOpen } = this.state;
+    const { isOpen, rating, editModalIsOpen, review } = this.state;
+
     const sortedReviews = savedShow.reviews.sort((a, b) => {
       if (b.created_at < a.created_at) {
         return -1;
@@ -118,20 +121,20 @@ class SavedShowPage extends React.Component {
               savedShowId={savedShow.id}
               handleAddReview={handleAddReview}
             />
+            <EditReviewModal
+              editModalIsOpen={editModalIsOpen}
+              handleClose={this.hideEditModal}
+              savedShowId={savedShow.id}
+              review={review}
+            />
             {sortedReviews.map((r) => (
               <div key={r.id} className="review-box">
                 <Button.Group size="mini" floated="right">
                   <Button
                     color="blue"
                     icon="edit"
-                    onClick={this.showEditModal}
+                    onClick={() => this.showEditModal(r)}
                   ></Button>
-                  <EditReviewModal
-                    editModalIsOpen={editModalIsOpen}
-                    handleClose={this.hideEditModal}
-                    savedShowId={savedShow.id}
-                    review={r}
-                  />
                   <Button
                     color="red"
                     icon="trash alternate"
