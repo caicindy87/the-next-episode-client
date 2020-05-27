@@ -45,6 +45,12 @@ class ShowContainer extends Component {
 
   render() {
     const { searchTerm, shows } = this.state;
+    const {
+      savedShows,
+      handleRemovingSavedShow,
+      handleSavingShow,
+    } = this.props;
+
     return (
       <div>
         <SearchBar
@@ -60,7 +66,16 @@ class ShowContainer extends Component {
               const showId = +routerProps.match.params.id;
               const show = shows.find((s) => s.id === showId);
 
-              return show ? <Show show={show} /> : <Loader />;
+              return show ? (
+                <Show
+                  show={show}
+                  savedShows={savedShows}
+                  handleRemovingSavedShow={handleRemovingSavedShow}
+                  handleSavingShow={handleSavingShow}
+                />
+              ) : (
+                <Loader />
+              );
             }}
           ></Route>
           <Route

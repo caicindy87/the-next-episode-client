@@ -1,13 +1,18 @@
 import React from "react";
-import { Rating } from "semantic-ui-react";
+import { Rating, Button } from "semantic-ui-react";
 
 import "../style/savedshowpage.css";
 import ReviewModal from "./ReviewModal";
+import EditReviewModal from "./EditReviewModal";
 
 class SavedShowPage extends React.Component {
   constructor(props) {
     super();
-    this.state = { isOpen: false, rating: props.savedShow.rating };
+    this.state = {
+      isOpen: false,
+      rating: props.savedShow.rating,
+      editModalIsOpen: false,
+    };
   }
 
   showModal = () => {
@@ -19,6 +24,18 @@ class SavedShowPage extends React.Component {
   hideModal = () => {
     this.setState({
       isOpen: false,
+    });
+  };
+
+  showEditModal = () => {
+    this.setState({
+      editModalIsOpen: true,
+    });
+  };
+
+  hideEditModal = () => {
+    this.setState({
+      editModalIsOpen: false,
     });
   };
 
@@ -45,7 +62,7 @@ class SavedShowPage extends React.Component {
 
   render() {
     const { savedShow, handleDeleteReview, handleAddReview } = this.props;
-    const { isOpen, rating } = this.state;
+    const { isOpen, rating, editModalIsOpen } = this.state;
     const sortedReviews = savedShow.reviews.sort((a, b) => {
       if (b.created_at < a.created_at) {
         return -1;
@@ -90,9 +107,11 @@ class SavedShowPage extends React.Component {
             />
 
             <h3>Reviews</h3>
-            <button className="ui green button" onClick={this.showModal}>
-              Add a Review
-            </button>
+            <Button
+              color="green"
+              onClick={this.showModal}
+              content="Add a Review"
+            ></Button>
             <ReviewModal
               isOpen={isOpen}
               handleClose={this.hideModal}
@@ -101,15 +120,27 @@ class SavedShowPage extends React.Component {
             />
             {sortedReviews.map((r) => (
               <div key={r.id} className="review-box">
-                <p>Submitted Date: {r.created_at.substring(0, 10)}</p>
-                <button
-                  className="ui icon red button right floated"
-                  onClick={() => handleDeleteReview(savedShow.id, r.id)}
-                >
-                  <i aria-hidden="true" className="delete icon"></i>
-                </button>
+                <Button.Group size="mini" floated="right">
+                  <Button
+                    color="blue"
+                    icon="edit"
+                    onClick={this.showEditModal}
+                  ></Button>
+                  <EditReviewModal
+                    editModalIsOpen={editModalIsOpen}
+                    handleClose={this.hideEditModal}
+                    savedShowId={savedShow.id}
+                    review={r}
+                  />
+                  <Button
+                    color="red"
+                    icon="trash alternate"
+                    onClick={() => handleDeleteReview(savedShow.id, r.id)}
+                  ></Button>
+                </Button.Group>
+                <p>Reviewed on {r.created_at.substring(0, 10)}</p>
                 <p>{r.spoiler ? "Contains Spoiler" : "No Spoiler"}</p>
-                <p>{r.content}</p>
+                <p className="review-content">{r.content}</p>
                 <br />
               </div>
             ))}

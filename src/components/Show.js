@@ -1,18 +1,9 @@
 import React from "react";
 
 import "../style/show.css";
+import SavedShowsList from "./SavedShowsList";
 
 class Show extends React.Component {
-  // saved_show needs show_id, user_id. when a show is saved, can just default rating to null. should remove watch_date?
-  state = {
-    saved: false,
-    savedShowId: null,
-  };
-
-  toggleSaveButton = () => {
-    this.setState((prevState) => ({ saved: !prevState.saved }));
-  };
-
   createSavedShow = () => {
     fetch("http://localhost:3000/api/v1/saved_shows", {
       method: "POST",
@@ -25,23 +16,31 @@ class Show extends React.Component {
       },
     })
       .then((resp) => resp.json())
-      .then((s) => console.log(s));
+      .then((s) => this.props.handleSavingShow(s));
   };
 
-  removeSavedShow = () => {
-    fetch(
-      `http://localhost:3000/api/v1/saved_shows/${this.state.savedShowId}`,
-      { method: "DELETE" }
+  removeSavedShow = (id) => {
+    fetch(`http://localhost:3000/api/v1/saved_shows/${id}`, {
+      method: "DELETE",
+    });
+
+    this.props.handleRemovingSavedShow(id);
+  };
+
+  saveOrRemoveShow = () => {
+    const { show, savedShows } = this.props;
+    const savedShow = savedShows.find(
+      (savedShow) => savedShow.show.name === show.name
     );
-  };
 
-  componentDidUpdate() {
-    this.createSavedShow();
-  }
+    savedShow ? this.removeSavedShow(savedShow.id) : this.createSavedShow();
+  };
 
   render() {
-    const { show } = this.props;
-    const { saved } = this.state;
+    const { show, savedShows } = this.props;
+    const savedShow = savedShows.find(
+      (savedShow) => savedShow.show.name === show.name
+    );
 
     return (
       <div className="ui grid ">
@@ -64,11 +63,15 @@ class Show extends React.Component {
             <br />
             <button
               className={
-                saved ? "ui green basic button fluid" : "ui green  button fluid"
+                savedShow
+                  ? "ui green basic button fluid"
+                  : "ui green  button fluid"
               }
-              onClick={this.toggleSaveButton}
+              onClick={this.saveOrRemoveShow}
             >
-              {saved ? "Unsave Show" : "Save Show"}
+              {savedShows.some((savedShow) => savedShow.show.name === show.name)
+                ? "Unsave Show"
+                : "Save Show"}
             </button>
           </div>
         </div>

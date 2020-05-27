@@ -6,44 +6,16 @@ import SavedShowPage from "../components/SavedShowPage";
 import Loader from "../components/Loader";
 
 class SavedShowContainer extends Component {
-  state = {
-    savedShows: [],
-  };
+  state = {};
 
-  fetchShows = () => {
-    fetch("http://localhost:3000/api/v1/saved_shows")
-      .then((resp) => resp.json())
-      .then((data) => this.setState({ savedShows: data }));
-  };
+  // handleEditReview = () => {
+  //   const { isOpen } = this.state;
 
-  componentDidMount() {
-    this.fetchShows();
-  }
-
-  handleAddReview = (savedShowId, review) => {
-    this.setState((prevState) => ({
-      savedShows: prevState.savedShows.map((s) =>
-        s.id === savedShowId ? { ...s, reviews: [...s.reviews, review] } : s
-      ),
-    }));
-  };
-
-  handleDeleteReview = (savedShowId, reviewId) => {
-    fetch(`http://localhost:3000/api/v1/reviews/${reviewId}`, {
-      method: "DELETE",
-    });
-
-    this.setState((prevState) => ({
-      savedShows: prevState.savedShows.map((s) =>
-        s.id === savedShowId
-          ? { ...s, reviews: s.reviews.filter((r) => r.id !== reviewId) }
-          : s
-      ),
-    }));
-  };
+  //   return <ReviewModal isOpen={isOpen}></ReviewModal>;
+  // };
 
   render() {
-    const { savedShows } = this.state;
+    const { savedShows, handleAddReview, handleDeleteReview } = this.props;
 
     return (
       <div>
@@ -57,8 +29,8 @@ class SavedShowContainer extends Component {
               return savedShow ? (
                 <SavedShowPage
                   savedShow={savedShow}
-                  handleAddReview={this.handleAddReview}
-                  handleDeleteReview={this.handleDeleteReview}
+                  handleAddReview={handleAddReview}
+                  handleDeleteReview={handleDeleteReview}
                 />
               ) : (
                 <Loader />
