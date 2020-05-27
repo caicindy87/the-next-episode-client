@@ -8,16 +8,74 @@ import ShowContainer from "./ShowContainer";
 import SavedShowContainer from "./SavedShowContainer";
 import "../style/app.css";
 
-function App() {
-  return (
-    <div className="App">
-      <NavBar />
-      <Route exact path="/" component={Home} />
+class App extends React.Component {
+  state = {
+    savedShows: [],
+  };
 
-      <ShowContainer />
-      <SavedShowContainer />
-    </div>
-  );
+  fetchShows = () => {
+    fetch("http://localhost:3000/api/v1/saved_shows")
+      .then((resp) => resp.json())
+      .then((data) => this.setState({ savedShows: data }));
+  };
+
+  componentDidMount() {
+    this.fetchShows();
+  }
+
+  handleAddReview = (savedShowId, review) => {
+    this.setState((prevState) => ({
+      savedShows: prevState.savedShows.map((s) =>
+        s.id === savedShowId ? { ...s, reviews: [...s.reviews, review] } : s
+      ),
+    }));
+  };
+
+  handleDeleteReview = (savedShowId, reviewId) => {
+    fetch(`http://localhost:3000/api/v1/reviews/${reviewId}`, {
+      method: "DELETE",
+    });
+
+    this.setState((prevState) => ({
+      savedShows: prevState.savedShows.map((s) =>
+        s.id === savedShowId
+          ? { ...s, reviews: s.reviews.filter((r) => r.id !== reviewId) }
+          : s
+      ),
+    }));
+  };
+
+  handleSavingShow = (show) => {
+    this.setState((prevState) => ({
+      savedShows: [...prevState.savedShows, show],
+    }));
+  };
+
+  handleRemovingSavedShow = (savedShowId) => {
+    this.setState((prevState) => ({
+      savedShows: prevState.savedShows.filter((s) => s.id !== savedShowId),
+    }));
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <NavBar />
+        <Route exact path="/" component={Home} />
+
+        <ShowContainer
+          savedShows={this.state.savedShows}
+          handleRemovingSavedShow={this.handleRemovingSavedShow}
+          handleSavingShow={this.handleSavingShow}
+        />
+        <SavedShowContainer
+          savedShows={this.state.savedShows}
+          handleAddReview={this.handleAddReview}
+          handleDeleteReview={this.handleDeleteReview}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
