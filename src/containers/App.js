@@ -107,6 +107,14 @@ class App extends React.Component {
       <div className="App">
         <NavBar />
         {/* Switch will render route exclusively */}
+
+        <ShowContainer
+          savedShows={this.state.savedShows}
+          handleRemovingSavedShow={this.handleRemovingSavedShow}
+          handleSavingShow={this.handleSavingShow}
+        />
+        <Route exact path="/" component={Home} />
+
         <Switch>
           {/* In the route we are passing down our handleLogin to our login component */}
           <Route
@@ -125,13 +133,7 @@ class App extends React.Component {
             }}
           /> */}
         </Switch>
-        <Route exact path="/" component={Home} />
 
-        <ShowContainer
-          savedShows={this.state.savedShows}
-          handleRemovingSavedShow={this.handleRemovingSavedShow}
-          handleSavingShow={this.handleSavingShow}
-        />
         <SavedShowContainer
           savedShows={this.state.savedShows}
           handleAddReview={this.handleAddReview}

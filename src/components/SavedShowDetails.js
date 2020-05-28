@@ -7,7 +7,7 @@ const SavedShowDetails = ({ savedShow }) => {
         src={savedShow.show.image_thumbnail_path}
         className="ui large rounded image"
       />
-      <div className="show-details">
+      <div className="show-details-container">
         <p className="date">Start date: {savedShow.show.start_date}</p>
         <p className="date">End date: {savedShow.show.end_date}</p>
         <p>Status: {savedShow.show.status}</p>

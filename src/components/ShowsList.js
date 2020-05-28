@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "../style/savedshowlist.css";
+import "../style/list.css";
 
 const ShowsList = ({ shows }) => {
   return (
-    <div className="ui vertically divided grid">
+    <div className="ui  grid">
       <div className="four column row">
         {shows.map((show) => (
           <div key={show.id} className="column">
