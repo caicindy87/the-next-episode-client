@@ -45,7 +45,7 @@ const NavBar = () => {
               <Nav.Link href="/shows">TV Shows</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="/">Create an Account</Nav.Link>
+              <Nav.Link href="/logout">Logout</Nav.Link>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
