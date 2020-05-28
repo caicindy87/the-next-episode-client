@@ -1,34 +1,47 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+
 import NavBar from "../components/Navbar";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import ShowContainer from "./ShowContainer";
 import api from "../services/api";
-
 import SavedShowContainer from "./SavedShowContainer";
+import Signup from "../components/Signup";
 import "../style/app.css";
 
 class App extends React.Component {
   state = {
     auth: { currentUser: {} },
     savedShows: [],
+    shows: [],
+    searchTerm: "",
+  };
+
+  changeSearchTerm = (searchValue) => {
+    this.setState({ searchTerm: searchValue });
   };
 
   fetchShows = () => {
-    fetch("http://localhost:3000/api/v1/saved_shows", {
-      method: "GET",
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    })
+    fetch(
+      `http://localhost:3000/api/v1/search?searchTerm=${this.state.searchTerm}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
       .then((resp) => resp.json())
-      .then((data) => this.setState({ savedShows: data }));
+      .then((data) => {
+        console.log(data);
+        this.setState({ shows: data.tv_shows });
+      })
+      .catch((err) => console.log(err));
   };
 
   componentDidMount() {
-    this.fetchShows();
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -38,14 +51,23 @@ class App extends React.Component {
         this.setState({ auth: currentUser });
       });
     }
+
+    api.show
+      .fetchSavedShows()
+      .then((data) => this.setState({ savedShows: data }));
+
+    fetch("http://localhost:3000/api/v1/shows", {
+      method: "GET",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        this.setState({ shows: data });
+      })
+      .catch((err) => console.log(err));
   }
-
-  handleLogin = (user) => {
-    const currentUser = { currentUser: user };
-    localStorage.setItem("token", user.token);
-
-    this.setState({ auth: currentUser });
-  };
 
   handleAddReview = (savedShowId, review) => {
     this.setState((prevState) => ({
@@ -73,8 +95,13 @@ class App extends React.Component {
   };
 
   handleDeleteReview = (savedShowId, reviewId) => {
+    const token = localStorage.getItem("token");
+
     fetch(`http://localhost:3000/api/v1/reviews/${reviewId}`, {
       method: "DELETE",
+      headers: {
+        Authorization: token,
+      },
     });
 
     this.setState((prevState) => ({
@@ -98,42 +125,64 @@ class App extends React.Component {
     }));
   };
 
+  handleSignup = (user) => {
+    const currentUser = { currentUser: user };
+    localStorage.setItem("token", user.token);
+
+    this.setState({ auth: currentUser });
+  };
+
+  handleLogin = (user) => {
+    const currentUser = { currentUser: user };
+    localStorage.setItem("token", user.token);
+
+    this.setState({ auth: currentUser });
+  };
+
   handleLogout = () => {
+    console.log("logout");
     localStorage.removeItem("token");
     this.setState({ auth: { currentUser: {} } });
   };
+
   render() {
+    const { searchTerm } = this.state;
+
     return (
       <div className="App">
-        <NavBar />
-        {/* Switch will render route exclusively */}
-
-        <ShowContainer
-          savedShows={this.state.savedShows}
-          handleRemovingSavedShow={this.handleRemovingSavedShow}
-          handleSavingShow={this.handleSavingShow}
+        <NavBar
+          currentUser={this.state.auth.currentUser}
+          handleLogout={this.handleLogout}
+          searchTerm={searchTerm}
+          changeSearchTerm={this.changeSearchTerm}
+          fetchShows={this.fetchShows}
         />
-        <Route exact path="/" component={Home} />
 
         <Switch>
-          {/* In the route we are passing down our handleLogin to our login component */}
           <Route
             path="/login"
             render={(routerProps) => {
               return <Login {...routerProps} handleLogin={this.handleLogin} />;
             }}
           />
-          {/* logic to check if user is logged in. */}
           <Route
-            path="/"
-            render={() => {
-              const loggedIn = !!this.state.auth.currentUser.id;
-
-              return loggedIn ? <Home /> : <Redirect to="/login" />;
+            path="/signup"
+            render={(routerProps) => {
+              return (
+                <Signup {...routerProps} handleSignup={this.handleSignup} />
+              );
             }}
-          />
+          ></Route>
+          <Route exact path="/" component={Home}></Route>
         </Switch>
 
+        <ShowContainer
+          shows={this.state.shows}
+          currentUser={this.state.auth.currentUser}
+          savedShows={this.state.savedShows}
+          handleRemovingSavedShow={this.handleRemovingSavedShow}
+          handleSavingShow={this.handleSavingShow}
+        />
         <SavedShowContainer
           savedShows={this.state.savedShows}
           handleAddReview={this.handleAddReview}

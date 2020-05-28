@@ -9,7 +9,8 @@
   text-align: center;
   color: #fff;
   text-transform: uppercase;
-  font-size: 45px;
+  font-size: 65px;
+  font-family: "Chelsea Market", cursive;
 }
 .background {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),

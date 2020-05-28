@@ -22,9 +22,32 @@ const getCurrentUser = () => {
   }).then((res) => res.json());
 };
 
+const createNewUser = (username, password, confirmPassword) => {
+  return fetch(`${API_ROOT}/users`, {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify({
+      user: { username, password, password_confirmation: confirmPassword },
+    }),
+  }).then((res) => res.json());
+};
+
+const fetchSavedShows = () => {
+  return fetch("http://localhost:3000/api/v1/saved_shows", {
+    method: "GET",
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  }).then((resp) => resp.json());
+};
+
 export default {
   auth: {
     login: login,
     getCurrentUser: getCurrentUser,
+    createNewUser: createNewUser,
+  },
+  show: {
+    fetchSavedShows: fetchSavedShows,
   },
 };

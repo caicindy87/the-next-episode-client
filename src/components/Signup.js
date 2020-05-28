@@ -3,7 +3,7 @@ import api from "../services/api";
 
 import "../style/form.css";
 
-class Login extends React.Component {
+class Signup extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -11,10 +11,10 @@ class Login extends React.Component {
       fields: {
         username: "",
         password: "",
+        confirmPassword: "",
       },
     };
   }
-  // Adds new key value to the end of fields of target.name:target.value
 
   handleChange = (e) => {
     const newFields = { ...this.state.fields, [e.target.name]: e.target.value };
@@ -24,23 +24,25 @@ class Login extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    api.auth
-      .login(this.state.fields.username, this.state.fields.password)
-      .then((currentUser) => {
-        if (currentUser.error) {
-          this.setState({ error: true });
-        } else {
-          this.props.handleLogin(currentUser);
-          this.props.history.push("/shows");
-        }
-      });
+    const { username, password, confirmPassword } = this.state.fields;
+
+    api.auth.createNewUser(username, password, confirmPassword).then((user) => {
+      if (user.error) {
+        this.setState({ error: true });
+        alert(user.error);
+      } else {
+        console.log(user);
+        this.props.handleSignup(user);
+        this.props.history.push("/shows");
+      }
+    });
   };
 
   render() {
     const { fields } = this.state;
     return (
       <div>
-        <h1>Log In</h1>
+        <h1>Create an Account</h1>
         {this.state.error ? <h1>Try Again</h1> : null}
         <div className="ui form">
           <form className="ui large form" onSubmit={this.handleSubmit}>
@@ -63,9 +65,19 @@ class Login extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
+            <div className="ui field">
+              <label>Password</label>
+              <input
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm password"
+                value={fields.confirmPassword}
+                onChange={this.handleChange}
+              />
+            </div>
             <br />
-            <button type="submit" className="ui  green button fluid">
-              Login
+            <button type="submit" className="ui green button fluid">
+              Signup
             </button>
           </form>
         </div>
@@ -74,4 +86,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default Signup;
