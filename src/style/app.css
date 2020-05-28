@@ -1,0 +1,8 @@
+* {
+  font-family: "Chelsea Market", cursive;
+}
+
+.searchbar {
+  position: absolute;
+  right: 15%;
+}

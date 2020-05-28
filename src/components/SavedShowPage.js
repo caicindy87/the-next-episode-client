@@ -50,6 +50,8 @@ class SavedShowPage extends React.Component {
   };
 
   componentDidUpdate() {
+    const token = localStorage.getItem("token");
+
     fetch(
       `http://localhost:3000/api/v1/saved_shows/${this.props.savedShow.id}`,
       {
@@ -59,6 +61,8 @@ class SavedShowPage extends React.Component {
         }),
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token,
         },
       }
     );
@@ -126,6 +130,7 @@ class SavedShowPage extends React.Component {
             />
             {sortedReviews.map((r) => (
               <Review
+                key={r.id}
                 showEditModal={this.showEditModal}
                 handleDeleteReview={handleDeleteReview}
                 r={r}

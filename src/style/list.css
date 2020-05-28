@@ -1,7 +1,6 @@
 .ui.grid {
   margin-left: 3.5rem;
   margin-right: 1rem;
-  margin-top: 0.5rem;
 }
 
 .show-name {
@@ -10,4 +9,9 @@
   text-align: center;
   text-decoration: none;
   color: black;
+}
+
+h1 {
+  padding-top: 15px;
+  font-family: "Chelsea Market", cursive;
 }

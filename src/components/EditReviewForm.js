@@ -18,6 +18,7 @@ class EditReviewForm extends Component {
   handleSubmit = () => {
     const { content, spoiler } = this.state;
     const { savedShowId, handleClose, review, handleEditReview } = this.props;
+    const token = localStorage.getItem("token");
 
     fetch(`http://localhost:3000/api/v1/reviews/${review.id}`, {
       method: "PATCH",
@@ -27,6 +28,8 @@ class EditReviewForm extends Component {
       }),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: token,
       },
     })
       .then((resp) => resp.json())

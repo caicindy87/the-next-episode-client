@@ -1,0 +1,10 @@
+h1 {
+  text-align: center;
+}
+
+.ui.form {
+  position: relative;
+  left: 14%;
+  max-width: 75%;
+  margin-top: 2rem;
+}
