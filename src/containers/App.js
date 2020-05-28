@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import Home from "../components/Home";
 import Login from "../components/Login";
@@ -99,16 +99,16 @@ class App extends React.Component {
             }}
           />
           {/*Planned logic to check if user is logged in. */}
-          {/* <Route
+          <Route
             path="/"
             render={() => {
               const loggedIn = !!this.state.auth.currentUser.id;
 
-              return loggedIn ? <About /> : <Redirect to="/login" />;
+              return loggedIn ? <Home /> : <Redirect to="/login" />;
             }}
-          /> */}
+          />
         </Switch>
-        <Route exact path="/" component={Home} />
+        {/* <Route exact path="/" component={Home} /> */}
 
         <ShowContainer
           savedShows={this.state.savedShows}
