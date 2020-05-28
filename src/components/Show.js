@@ -1,7 +1,6 @@
 import React from "react";
 
-import "../style/show.css";
-import SavedShowsList from "./SavedShowsList";
+import "../style/showpage.css";
 
 class Show extends React.Component {
   createSavedShow = () => {
@@ -43,17 +42,18 @@ class Show extends React.Component {
     );
 
     return (
-      <div className="ui grid ">
+      <div className="ui grid container">
         <div className="row">
           <div className="thumbnail six wide column ">
             <img
               src={show.image_thumbnail_path}
-              className="ui medium rounded image"
+              className="ui large rounded image"
             />
           </div>
-          <div className=" show-details six wide column">
+
+          <div className=" show-details-container six wide column">
             <h1>{show.name}</h1>
-            <div className="-details">
+            <div className="show-details">
               <p className="date">Start date: {show.start_date}</p>
               <p className="date">End date: {show.end_date}</p>
               <p>Status: {show.status}</p>
@@ -79,33 +79,5 @@ class Show extends React.Component {
     );
   }
 }
-
-// const Show = ({ show }) => {
-//   return (
-//     <div className="ui grid ">
-//       <div className="row">
-//         <div className="thumbnail five wide column ">
-//           <img
-//             src={show.image_thumbnail_path}
-//             className="ui large rounded image"
-//           />
-//         </div>
-//         <div className=" show-details six wide column ">
-//           <h1>{show.name}</h1>
-//           <div className="-details">
-//             <p className="date">Start date: {show.start_date}</p>
-//             <p className="date">End date: {show.end_date}</p>
-//             <p>Status: {show.status}</p>
-//             <p>Country: {show.country}</p>
-//             <p>Network: {show.network}</p>
-//           </div>
-//           <button class="ui green basic button" onClick={() => <ReviewForm />}>
-//             Rate and Review
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default Show;

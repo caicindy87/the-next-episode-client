@@ -1,10 +1,15 @@
 import React from "react";
+import { Container, Header, Button, Icon } from "semantic-ui-react";
+
+import "../style/home.css";
 
 const Home = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
+    <header className="background">
+      <div className="welcome">
+        <h1>The Next Episode</h1>
+      </div>
+    </header>
   );
 };
 

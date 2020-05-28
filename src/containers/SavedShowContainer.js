@@ -7,7 +7,12 @@ import Loader from "../components/Loader";
 
 class SavedShowContainer extends Component {
   render() {
-    const { savedShows, handleAddReview, handleDeleteReview } = this.props;
+    const {
+      savedShows,
+      handleAddReview,
+      handleDeleteReview,
+      handleEditReview,
+    } = this.props;
 
     return (
       <div>
@@ -23,6 +28,7 @@ class SavedShowContainer extends Component {
                   savedShow={savedShow}
                   handleAddReview={handleAddReview}
                   handleDeleteReview={handleDeleteReview}
+                  handleEditReview={handleEditReview}
                 />
               ) : (
                 <Loader />
