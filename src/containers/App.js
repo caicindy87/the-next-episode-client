@@ -98,7 +98,7 @@ class App extends React.Component {
               return <Login {...routerProps} handleLogin={this.handleLogin} />;
             }}
           />
-          {/*Planned logic to check if user is logged in. */}
+          {/* logic to check if user is logged in. */}
           <Route
             path="/"
             render={() => {
