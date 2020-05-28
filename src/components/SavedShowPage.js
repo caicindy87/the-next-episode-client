@@ -4,6 +4,8 @@ import { Rating, Button } from "semantic-ui-react";
 import "../style/savedshowpage.css";
 import ReviewModal from "./ReviewModal";
 import EditReviewModal from "./EditReviewModal";
+import Review from "./Review";
+import SavedShowDetails from "./SavedShowDetails";
 
 class SavedShowPage extends React.Component {
   constructor(props) {
@@ -12,6 +14,7 @@ class SavedShowPage extends React.Component {
       isOpen: false,
       rating: props.savedShow.rating,
       editModalIsOpen: false,
+      review: {},
     };
   }
 
@@ -27,9 +30,10 @@ class SavedShowPage extends React.Component {
     });
   };
 
-  showEditModal = () => {
+  showEditModal = (review) => {
     this.setState({
       editModalIsOpen: true,
+      review: review,
     });
   };
 
@@ -46,6 +50,8 @@ class SavedShowPage extends React.Component {
   };
 
   componentDidUpdate() {
+    const token = localStorage.getItem("token");
+
     fetch(
       `http://localhost:3000/api/v1/saved_shows/${this.props.savedShow.id}`,
       {
@@ -55,14 +61,23 @@ class SavedShowPage extends React.Component {
         }),
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token,
         },
       }
     );
   }
 
   render() {
-    const { savedShow, handleDeleteReview, handleAddReview } = this.props;
-    const { isOpen, rating, editModalIsOpen } = this.state;
+    const { isOpen, rating, editModalIsOpen, review } = this.state;
+
+    const {
+      savedShow,
+      handleDeleteReview,
+      handleAddReview,
+      handleEditReview,
+    } = this.props;
+
     const sortedReviews = savedShow.reviews.sort((a, b) => {
       if (b.created_at < a.created_at) {
         return -1;
@@ -74,19 +89,7 @@ class SavedShowPage extends React.Component {
 
     return (
       <div className="ui grid container">
-        <div className="show content left floated five wide column ">
-          <img
-            src={savedShow.show.image_thumbnail_path}
-            className="ui large rounded image"
-          />
-          <div className="show-details">
-            <p className="date">Start date: {savedShow.show.start_date}</p>
-            <p className="date">End date: {savedShow.show.end_date}</p>
-            <p>Status: {savedShow.show.status}</p>
-            <p>Country: {savedShow.show.country}</p>
-            <p>Network: {savedShow.show.network}</p>
-          </div>
-        </div>
+        <SavedShowDetails savedShow={savedShow} />
         <div className="content right floated nine wide column">
           <h1>{savedShow.show.name}</h1>
           <br />
@@ -118,31 +121,21 @@ class SavedShowPage extends React.Component {
               savedShowId={savedShow.id}
               handleAddReview={handleAddReview}
             />
+            <EditReviewModal
+              editModalIsOpen={editModalIsOpen}
+              handleClose={this.hideEditModal}
+              savedShowId={savedShow.id}
+              review={review}
+              handleEditReview={handleEditReview}
+            />
             {sortedReviews.map((r) => (
-              <div key={r.id} className="review-box">
-                <Button.Group size="mini" floated="right">
-                  <Button
-                    color="blue"
-                    icon="edit"
-                    onClick={this.showEditModal}
-                  ></Button>
-                  <EditReviewModal
-                    editModalIsOpen={editModalIsOpen}
-                    handleClose={this.hideEditModal}
-                    savedShowId={savedShow.id}
-                    review={r}
-                  />
-                  <Button
-                    color="red"
-                    icon="trash alternate"
-                    onClick={() => handleDeleteReview(savedShow.id, r.id)}
-                  ></Button>
-                </Button.Group>
-                <p>Reviewed on {r.created_at.substring(0, 10)}</p>
-                <p>{r.spoiler ? "Contains Spoiler" : "No Spoiler"}</p>
-                <p className="review-content">{r.content}</p>
-                <br />
-              </div>
+              <Review
+                key={r.id}
+                showEditModal={this.showEditModal}
+                handleDeleteReview={handleDeleteReview}
+                r={r}
+                savedShow={savedShow}
+              />
             ))}
           </div>
         </div>

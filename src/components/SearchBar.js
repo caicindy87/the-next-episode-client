@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const SearchBar = ({ searchTerm, changeSearchTerm, fetchShows }) => {
   return (
-    <div>
+    <div className="searchbar">
       <input
         className="searchInput"
         type="text"
@@ -12,7 +12,13 @@ const SearchBar = ({ searchTerm, changeSearchTerm, fetchShows }) => {
         onChange={(e) => changeSearchTerm(e.target.value)}
       />
       <Link to="/shows">
-        <input type="submit" value="Search" onClick={fetchShows} />
+        <button
+          type="button"
+          onClick={fetchShows}
+          className="ui mini green button"
+        >
+          <i aria-hidden="true" class="search icon"></i>
+        </button>
       </Link>
     </div>
   );

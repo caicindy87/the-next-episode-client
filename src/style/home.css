@@ -1,0 +1,22 @@
+.welcome {
+  position: absolute;
+  width: 600px;
+  height: 100px;
+  margin: 20% 30%;
+  text-align: center;
+}
+.welcome h1 {
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 65px;
+  font-family: "Chelsea Market", cursive;
+}
+.background {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://thehooksite.com/wp-content/uploads/2019/10/GettyImages-1001414360.jpg");
+  height: 100vh;
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+}

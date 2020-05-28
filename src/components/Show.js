@@ -1,18 +1,22 @@
 import React from "react";
 
-import "../style/show.css";
-import SavedShowsList from "./SavedShowsList";
+import "../style/showpage.css";
 
 class Show extends React.Component {
   createSavedShow = () => {
+    const token = localStorage.getItem("token");
+    const { currentUser } = this.props;
+
     fetch("http://localhost:3000/api/v1/saved_shows", {
       method: "POST",
       body: JSON.stringify({
         show: this.props.show,
-        saved_show: { rating: 0, user_id: 1 },
+        saved_show: { rating: 0, user_id: currentUser.id },
       }),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: token,
       },
     })
       .then((resp) => resp.json())
@@ -20,8 +24,13 @@ class Show extends React.Component {
   };
 
   removeSavedShow = (id) => {
+    const token = localStorage.getItem("token");
+
     fetch(`http://localhost:3000/api/v1/saved_shows/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: token,
+      },
     });
 
     this.props.handleRemovingSavedShow(id);
@@ -38,22 +47,27 @@ class Show extends React.Component {
 
   render() {
     const { show, savedShows } = this.props;
-    const savedShow = savedShows.find(
-      (savedShow) => savedShow.show.name === show.name
-    );
+
+    const loggedIn = !!this.props.currentUser.id;
+    let savedShow = "";
+    loggedIn &&
+      (savedShow = savedShows.find(
+        (savedShow) => savedShow.show.name === show.name
+      ));
 
     return (
-      <div className="ui grid ">
+      <div className="ui grid container">
         <div className="row">
           <div className="thumbnail six wide column ">
             <img
               src={show.image_thumbnail_path}
-              className="ui medium rounded image"
+              className="ui large rounded image"
             />
           </div>
-          <div className=" show-details six wide column">
+
+          <div className=" show-details-container six wide column">
             <h1>{show.name}</h1>
-            <div className="-details">
+            <div className="show-details">
               <p className="date">Start date: {show.start_date}</p>
               <p className="date">End date: {show.end_date}</p>
               <p>Status: {show.status}</p>
@@ -61,51 +75,27 @@ class Show extends React.Component {
               <p>Network: {show.network}</p>
             </div>
             <br />
-            <button
-              className={
-                savedShow
-                  ? "ui green basic button fluid"
-                  : "ui green  button fluid"
-              }
-              onClick={this.saveOrRemoveShow}
-            >
-              {savedShows.some((savedShow) => savedShow.show.name === show.name)
-                ? "Unsave Show"
-                : "Save Show"}
-            </button>
+            {loggedIn ? (
+              <button
+                className={
+                  savedShow
+                    ? "ui green basic button fluid"
+                    : "ui green  button fluid"
+                }
+                onClick={this.saveOrRemoveShow}
+              >
+                {savedShows.some(
+                  (savedShow) => savedShow.show.name === show.name
+                )
+                  ? "Unsave Show"
+                  : "Save Show"}
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
     );
   }
 }
-
-// const Show = ({ show }) => {
-//   return (
-//     <div className="ui grid ">
-//       <div className="row">
-//         <div className="thumbnail five wide column ">
-//           <img
-//             src={show.image_thumbnail_path}
-//             className="ui large rounded image"
-//           />
-//         </div>
-//         <div className=" show-details six wide column ">
-//           <h1>{show.name}</h1>
-//           <div className="-details">
-//             <p className="date">Start date: {show.start_date}</p>
-//             <p className="date">End date: {show.end_date}</p>
-//             <p>Status: {show.status}</p>
-//             <p>Country: {show.country}</p>
-//             <p>Network: {show.network}</p>
-//           </div>
-//           <button class="ui green basic button" onClick={() => <ReviewForm />}>
-//             Rate and Review
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default Show;

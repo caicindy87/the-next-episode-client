@@ -18,6 +18,7 @@ class ReviewForm extends Component {
   handleSubmit = () => {
     const { content, spoiler } = this.state;
     const { savedShowId, handleClose, handleAddReview } = this.props;
+    const token = localStorage.getItem("token");
 
     fetch("http://localhost:3000/api/v1/reviews", {
       method: "POST",
@@ -28,6 +29,8 @@ class ReviewForm extends Component {
       }),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: token,
       },
     })
       .then((resp) => resp.json())

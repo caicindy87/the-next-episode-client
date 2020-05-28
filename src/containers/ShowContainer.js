@@ -1,69 +1,22 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import SearchBar from "../components/SearchBar";
 import ShowsList from "../components/ShowsList";
 import Show from "../components/Show";
 import Loader from "../components/Loader";
 
 class ShowContainer extends Component {
-  state = {
-    shows: [],
-    searchTerm: "",
-  };
-
-  changeSearchTerm = (searchValue) => {
-    this.setState({ searchTerm: searchValue });
-  };
-
-  fetchShows = () => {
-    fetch(
-      `http://localhost:3000/api/v1/search?searchTerm=${this.state.searchTerm}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      }
-    )
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data);
-        this.setState({ shows: data.tv_shows });
-      })
-      .catch((err) => console.log(err));
-  };
-
-  componentDidMount() {
-    fetch("http://localhost:3000/api/v1/shows", {
-      method: "GET",
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        this.setState({ shows: data });
-      })
-      .catch((err) => console.log(err));
-  }
-
   render() {
-    const { searchTerm, shows } = this.state;
     const {
       savedShows,
       handleRemovingSavedShow,
       handleSavingShow,
+      currentUser,
+      shows,
     } = this.props;
 
     return (
       <div>
-        <SearchBar
-          searchTerm={searchTerm}
-          changeSearchTerm={this.changeSearchTerm}
-          fetchShows={this.fetchShows}
-        />
-
         <Switch>
           <Route
             path="/shows/:id"
@@ -77,6 +30,7 @@ class ShowContainer extends Component {
                   savedShows={savedShows}
                   handleRemovingSavedShow={handleRemovingSavedShow}
                   handleSavingShow={handleSavingShow}
+                  currentUser={currentUser}
                 />
               ) : (
                 <Loader />
