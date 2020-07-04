@@ -7,7 +7,7 @@ class Show extends React.Component {
     const token = localStorage.getItem("token");
     const { currentUser } = this.props;
 
-    fetch("http://localhost:3000/api/v1/saved_shows", {
+    fetch(`http://localhost:3000/api/v1/users/${currentUser.id}/saved_shows`, {
       method: "POST",
       body: JSON.stringify({
         show: this.props.show,
@@ -25,13 +25,17 @@ class Show extends React.Component {
 
   removeSavedShow = (id) => {
     const token = localStorage.getItem("token");
+    const { currentUser } = this.props;
 
-    fetch(`http://localhost:3000/api/v1/saved_shows/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: token,
-      },
-    });
+    fetch(
+      `http://localhost:3000/api/v1/users/${currentUser.id}/saved_shows/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
 
     this.props.handleRemovingSavedShow(id);
   };
@@ -47,9 +51,10 @@ class Show extends React.Component {
 
   render() {
     const { show, savedShows } = this.props;
-
-    const loggedIn = !!this.props.currentUser.id;
+    const loggedIn = !!localStorage.getItem("token");
     let savedShow = "";
+
+    /* Used to change style of button on show's show page. If logged in and the show is already saved by user, button will not be filled and will say Unsave Show. If show is not yet saved by user, button will be filled and say Save Show*/
     loggedIn &&
       (savedShow = savedShows.find(
         (savedShow) => savedShow.show.name === show.name
@@ -80,10 +85,11 @@ class Show extends React.Component {
                 className={
                   savedShow
                     ? "ui green basic button fluid"
-                    : "ui green  button fluid"
+                    : "ui green button fluid"
                 }
                 onClick={this.saveOrRemoveShow}
               >
+                {/* To check if show is saved or not*/}
                 {savedShows.some(
                   (savedShow) => savedShow.show.name === show.name
                 )

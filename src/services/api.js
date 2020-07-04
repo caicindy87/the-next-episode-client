@@ -16,9 +16,9 @@ const login = (username, password) => {
   }).then((res) => res.json());
 };
 
-const getCurrentUser = () => {
+const getCurrentUser = (token) => {
   return fetch(`${API_ROOT}/current_user`, {
-    headers: headers,
+    headers: { ...headers, Authorization: token },
   }).then((res) => res.json());
 };
 
@@ -32,11 +32,13 @@ const createNewUser = (username, password, confirmPassword) => {
   }).then((res) => res.json());
 };
 
-const fetchSavedShows = () => {
-  return fetch("http://localhost:3000/api/v1/saved_shows", {
+const fetchSavedShows = (token, user) => {
+  return fetch(`${API_ROOT}/users/${user.id}/saved_shows`, {
     method: "GET",
     headers: {
-      Authorization: localStorage.getItem("token"),
+      Authorization: token,
+      "Content-Type": "application/json",
+      Accept: "application/json",
     },
   }).then((resp) => resp.json());
 };

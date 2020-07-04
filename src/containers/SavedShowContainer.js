@@ -12,6 +12,7 @@ class SavedShowContainer extends Component {
       handleAddReview,
       handleDeleteReview,
       handleEditReview,
+      currentUser,
     } = this.props;
 
     return (
@@ -29,6 +30,7 @@ class SavedShowContainer extends Component {
                   handleAddReview={handleAddReview}
                   handleDeleteReview={handleDeleteReview}
                   handleEditReview={handleEditReview}
+                  currentUser={currentUser}
                 />
               ) : (
                 <Loader />

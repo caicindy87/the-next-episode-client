@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, Form, FormControl } from "react-bootstrap";
 import styled from "styled-components";
 
@@ -16,9 +16,11 @@ const Styles = styled.div`
     &:hover {
       color: white;
     }
+    padding: 8px;
+    font-size: 15px;
   }
-  .navbar-brand {
-    font-size: 1.4em;
+  .brand {
+    font-size: 1.7em;
     color: #9fffcb;
     &:hover {
       color: white;
@@ -32,7 +34,6 @@ const Styles = styled.div`
 `;
 
 const NavBar = ({
-  currentUser,
   handleLogout,
   history,
   searchTerm,
@@ -41,8 +42,10 @@ const NavBar = ({
 }) => {
   return (
     <Styles>
-      <Navbar expand="lg">
-        <Navbar.Brand href="/">The Next Episode</Navbar.Brand>
+      <Navbar expand="lg" class="navbar">
+        <Link to="/" className="brand">
+          The Next Episode
+        </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <SearchBar
           searchTerm={searchTerm}
@@ -51,34 +54,33 @@ const NavBar = ({
         />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            {!!currentUser.id && (
+            {!!localStorage.getItem("token") && (
               <Nav.Item>
-                <Nav.Link href="/savedshows">Saved Shows</Nav.Link>
+                <Link to="/savedshows">Saved Shows</Link>
               </Nav.Item>
             )}
             <Nav.Item>
-              <Nav.Link href="/shows">TV Shows</Nav.Link>
+              <a href="/shows">TV Shows</a>
             </Nav.Item>
-            {!!currentUser.id ? (
+            {!!localStorage.getItem("token") ? (
               <Nav.Item>
-                <Nav.Link
+                <Link
                   onClick={() => {
-                    console.log("clicked");
                     history.push("/");
                     handleLogout();
                   }}
                 >
                   Log Out
-                </Nav.Link>
+                </Link>
               </Nav.Item>
             ) : (
               <Nav.Item>
-                <Nav.Link href="/login">Log In</Nav.Link>
+                <Link to="/login">Log In</Link>
               </Nav.Item>
             )}
-            {!!currentUser.id ? null : (
+            {!!localStorage.getItem("token") ? null : (
               <Nav.Item>
-                <Nav.Link href="/signup">Create Account</Nav.Link>
+                <Link to="/signup">Create Account</Link>
               </Nav.Item>
             )}
           </Nav>
@@ -89,10 +91,3 @@ const NavBar = ({
 };
 
 export default withRouter(NavBar);
-
-// Goes inbetween <toggle and collaspe
-{
-  /* <Form className="form-center">
-  <FormControl type="text" placeholder="Search" className="" />
-</Form>; */
-}

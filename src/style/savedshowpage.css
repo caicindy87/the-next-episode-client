@@ -22,11 +22,10 @@ h1 {
   text-align: center;
 }
 
-/* .show {
-  border: solid 1px #ced6e0;
-  border-radius: 3px;
-  height: 750px;
-} */
+h4.ui.header {
+  font-size: 1.07142857rem;
+  font-family: "Chelsea Market", cursive;
+}
 
 .show-details-container {
   margin: 0px auto;
@@ -46,4 +45,5 @@ h1 {
 
 .review-log h3 {
   margin: 30px 10px;
+  font-family: "Chelsea Market", cursive;
 }
