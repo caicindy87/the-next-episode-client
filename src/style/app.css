@@ -2,7 +2,11 @@
   font-family: "Chelsea Market", cursive;
 }
 
+.navbar {
+  height: 55px;
+}
+
 .searchbar {
   position: absolute;
-  right: 15%;
+  right: 20%;
 }
