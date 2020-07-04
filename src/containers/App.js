@@ -169,6 +169,7 @@ class App extends React.Component {
 
         <Switch>
           <Route
+            exact
             path="/login"
             render={(routerProps) => {
               return <Login {...routerProps} handleLogin={this.handleLogin} />;
