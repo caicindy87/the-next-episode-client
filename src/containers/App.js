@@ -50,7 +50,7 @@ class App extends React.Component {
       api.auth.getCurrentUser(token).then((user) => {
         const currentUser = { currentUser: user };
 
-        this.setState({ auth: currentUser }, () => this.fetchSavedShows(user));
+        this.setState({ auth: currentUser }, () => this.getSavedShows(user));
       });
     }
 
@@ -69,16 +69,15 @@ class App extends React.Component {
   }
 
   // Fetch user's saved shows
-  fetchSavedShows = (user) => {
-    console.log("getting current user!", user);
+  getSavedShows = (user) => {
     const token = localStorage.getItem("token");
 
     api.show.fetchSavedShows(token, user).then((data) => {
-      const savedShows = data.filter((s) => s.user.id === user.id);
-      this.setState({ savedShows: savedShows });
+      this.setState({ savedShows: data });
     });
   };
 
+  // Display new review on page without reloading
   handleAddReview = (savedShowId, review) => {
     this.setState((prevState) => ({
       savedShows: prevState.savedShows.map((s) =>
@@ -87,6 +86,7 @@ class App extends React.Component {
     }));
   };
 
+  // Display edited review without reloading page
   handleEditReview = (savedShowId, updatedReview) => {
     this.setState((prevState) => ({
       savedShows: prevState.savedShows.map((s) => {
@@ -104,6 +104,7 @@ class App extends React.Component {
     }));
   };
 
+  // Remove review from page without reloading
   handleDeleteReview = (savedShowId, reviewId) => {
     const token = localStorage.getItem("token");
 
@@ -123,12 +124,14 @@ class App extends React.Component {
     }));
   };
 
+  // Add show to savedShows array and display it on page without reloading
   handleSavingShow = (show) => {
     this.setState((prevState) => ({
       savedShows: [...prevState.savedShows, show],
     }));
   };
 
+  // Remove show from savedShows array and page without reloading
   handleRemovingSavedShow = (savedShowId) => {
     this.setState((prevState) => ({
       savedShows: prevState.savedShows.filter((s) => s.id !== savedShowId),
@@ -146,7 +149,7 @@ class App extends React.Component {
     const currentUser = { currentUser: user };
     localStorage.setItem("token", user.token);
 
-    this.setState({ auth: currentUser }, () => this.fetchSavedShows(user));
+    this.setState({ auth: currentUser }, () => this.getSavedShows(user));
   };
 
   handleLogout = () => {
