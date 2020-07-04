@@ -41,7 +41,7 @@ const NavBar = ({
 }) => {
   return (
     <Styles>
-      <Navbar expand="lg">
+      <Navbar expand="lg" class="navbar">
         <Navbar.Brand href="/">The Next Episode</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <SearchBar
@@ -51,7 +51,7 @@ const NavBar = ({
         />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            {!!currentUser.id && (
+            {!!localStorage.getItem("token") && (
               <Nav.Item>
                 <Nav.Link href="/savedshows">Saved Shows</Nav.Link>
               </Nav.Item>
@@ -59,11 +59,10 @@ const NavBar = ({
             <Nav.Item>
               <Nav.Link href="/shows">TV Shows</Nav.Link>
             </Nav.Item>
-            {!!currentUser.id ? (
+            {!!localStorage.getItem("token") ? (
               <Nav.Item>
                 <Nav.Link
                   onClick={() => {
-                    console.log("clicked");
                     history.push("/");
                     handleLogout();
                   }}
@@ -76,7 +75,7 @@ const NavBar = ({
                 <Nav.Link href="/login">Log In</Nav.Link>
               </Nav.Item>
             )}
-            {!!currentUser.id ? null : (
+            {!!localStorage.getItem("token") ? null : (
               <Nav.Item>
                 <Nav.Link href="/signup">Create Account</Nav.Link>
               </Nav.Item>
@@ -89,10 +88,3 @@ const NavBar = ({
 };
 
 export default withRouter(NavBar);
-
-// Goes inbetween <toggle and collaspe
-{
-  /* <Form className="form-center">
-  <FormControl type="text" placeholder="Search" className="" />
-</Form>; */
-}

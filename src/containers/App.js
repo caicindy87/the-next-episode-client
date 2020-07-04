@@ -23,6 +23,7 @@ class App extends React.Component {
     this.setState({ searchTerm: searchValue });
   };
 
+  // fetch shows from EpisoDate API based on query
   fetchShows = () => {
     fetch(
       `http://localhost:3000/api/v1/search?searchTerm=${this.state.searchTerm}`,
@@ -44,18 +45,16 @@ class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem("token");
 
+    // Re-authorize user when page reloads
     if (token) {
-      api.auth.getCurrentUser().then((user) => {
+      api.auth.getCurrentUser(token).then((user) => {
         const currentUser = { currentUser: user };
 
-        this.setState({ auth: currentUser });
+        this.setState({ auth: currentUser }, () => this.fetchSavedShows(user));
       });
     }
 
-    api.show
-      .fetchSavedShows()
-      .then((data) => this.setState({ savedShows: data }));
-
+    // Fetches shows from Rails API to populate shows page
     fetch("http://localhost:3000/api/v1/shows", {
       method: "GET",
       headers: {
@@ -68,6 +67,17 @@ class App extends React.Component {
       })
       .catch((err) => console.log(err));
   }
+
+  // Fetch user's saved shows
+  fetchSavedShows = (user) => {
+    console.log("getting current user!", user);
+    const token = localStorage.getItem("token");
+
+    api.show.fetchSavedShows(token, user).then((data) => {
+      const savedShows = data.filter((s) => s.user.id === user.id);
+      this.setState({ savedShows: savedShows });
+    });
+  };
 
   handleAddReview = (savedShowId, review) => {
     this.setState((prevState) => ({
@@ -136,13 +146,12 @@ class App extends React.Component {
     const currentUser = { currentUser: user };
     localStorage.setItem("token", user.token);
 
-    this.setState({ auth: currentUser });
+    this.setState({ auth: currentUser }, () => this.fetchSavedShows(user));
   };
 
   handleLogout = () => {
-    console.log("logout");
     localStorage.removeItem("token");
-    this.setState({ auth: { currentUser: {} } });
+    this.setState({ auth: { currentUser: {} }, savedShows: [] });
   };
 
   render() {
