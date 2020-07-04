@@ -151,7 +151,11 @@ class App extends React.Component {
 
   handleLogout = () => {
     localStorage.removeItem("token");
-    this.setState({ auth: { currentUser: {} }, savedShows: [] });
+    this.setState({
+      auth: { currentUser: {} },
+      savedShows: [],
+      searchTerm: "",
+    });
   };
 
   render() {
@@ -198,6 +202,7 @@ class App extends React.Component {
           handleAddReview={this.handleAddReview}
           handleDeleteReview={this.handleDeleteReview}
           handleEditReview={this.handleEditReview}
+          currentUser={this.state.auth.currentUser}
         />
       </div>
     );

@@ -60,7 +60,7 @@ const NavBar = ({
               </Nav.Item>
             )}
             <Nav.Item>
-              <Link to="/shows">TV Shows</Link>
+              <a href="/shows">TV Shows</a>
             </Nav.Item>
             {!!localStorage.getItem("token") ? (
               <Nav.Item>

@@ -51,9 +51,10 @@ class SavedShowPage extends React.Component {
 
   componentDidUpdate() {
     const token = localStorage.getItem("token");
+    const currentUser = this.props;
 
     fetch(
-      `http://localhost:3000/api/v1/saved_shows/${this.props.savedShow.id}`,
+      `http://localhost:3000/api/v1/users/${currentUser.id}/saved_shows/${this.props.savedShow.id}`,
       {
         method: "PATCH",
         body: JSON.stringify({
