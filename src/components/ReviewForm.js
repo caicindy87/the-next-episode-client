@@ -20,7 +20,7 @@ class ReviewForm extends Component {
     const { savedShowId, handleClose, handleAddReview } = this.props;
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:3000/api/v1/reviews", {
+    fetch("https://the-next-episode-api.herokuapp.com/api/v1/reviews", {
       method: "POST",
       body: JSON.stringify({
         content: content,

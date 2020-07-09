@@ -7,18 +7,21 @@ class Show extends React.Component {
     const token = localStorage.getItem("token");
     const { currentUser } = this.props;
 
-    fetch(`http://localhost:3000/api/v1/users/${currentUser.id}/saved_shows`, {
-      method: "POST",
-      body: JSON.stringify({
-        show: this.props.show,
-        saved_show: { rating: 0, user_id: currentUser.id },
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: token,
-      },
-    })
+    fetch(
+      `https://the-next-episode-api.herokuapp.com/api/v1/users/${currentUser.id}/saved_shows`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          show: this.props.show,
+          saved_show: { rating: 0, user_id: currentUser.id },
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token,
+        },
+      }
+    )
       .then((resp) => resp.json())
       .then((s) => this.props.handleSavingShow(s));
   };
@@ -28,7 +31,7 @@ class Show extends React.Component {
     const { currentUser } = this.props;
 
     fetch(
-      `http://localhost:3000/api/v1/users/${currentUser.id}/saved_shows/${id}`,
+      `https://the-next-episode-api.herokuapp.com/api/v1/users/${currentUser.id}/saved_shows/${id}`,
       {
         method: "DELETE",
         headers: {

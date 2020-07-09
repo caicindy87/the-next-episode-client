@@ -20,18 +20,21 @@ class EditReviewForm extends Component {
     const { savedShowId, handleClose, review, handleEditReview } = this.props;
     const token = localStorage.getItem("token");
 
-    fetch(`http://localhost:3000/api/v1/reviews/${review.id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        content: content,
-        spoiler: spoiler,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: token,
-      },
-    })
+    fetch(
+      `https://the-next-episode-api.herokuapp.com/api/v1/reviews/${review.id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          content: content,
+          spoiler: spoiler,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token,
+        },
+      }
+    )
       .then((resp) => resp.json())
       .then((review) => handleEditReview(savedShowId, review));
 

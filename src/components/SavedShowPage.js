@@ -54,7 +54,7 @@ class SavedShowPage extends React.Component {
     const currentUser = this.props;
 
     fetch(
-      `http://localhost:3000/api/v1/users/${currentUser.id}/saved_shows/${this.props.savedShow.id}`,
+      `https://the-next-episode-api.herokuapp.com/api/v1/users/${currentUser.id}/saved_shows/${this.props.savedShow.id}`,
       {
         method: "PATCH",
         body: JSON.stringify({

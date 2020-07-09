@@ -26,7 +26,7 @@ class App extends React.Component {
   // fetch shows from EpisoDate API based on query
   fetchShows = () => {
     fetch(
-      `http://localhost:3000/api/v1/search?searchTerm=${this.state.searchTerm}`,
+      `https://the-next-episode-api.herokuapp.com/api/v1/search?searchTerm=${this.state.searchTerm}`,
       {
         method: "GET",
         headers: {
@@ -55,7 +55,7 @@ class App extends React.Component {
     }
 
     // Fetches shows from Rails API to populate shows page
-    fetch("http://localhost:3000/api/v1/shows", {
+    fetch("https://the-next-episode-api.herokuapp.com/api/v1/shows", {
       method: "GET",
       headers: {
         Authorization: localStorage.getItem("token"),
@@ -108,12 +108,15 @@ class App extends React.Component {
   handleDeleteReview = (savedShowId, reviewId) => {
     const token = localStorage.getItem("token");
 
-    fetch(`http://localhost:3000/api/v1/reviews/${reviewId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: token,
-      },
-    });
+    fetch(
+      `https://the-next-episode-api.herokuapp.com/api/v1/reviews/${reviewId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
 
     this.setState((prevState) => ({
       savedShows: prevState.savedShows.map((s) =>
